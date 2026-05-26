@@ -1,0 +1,60 @@
+.worker-placeholder-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 20px;
+}
+
+.placeholder-card {
+  background: white;
+  padding: 40px;
+  border-radius: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  border: 1px solid #E2E8F0;
+}
+
+.placeholder-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0B1220;
+  margin-bottom: 12px;
+}
+
+.placeholder-text {
+  font-size: 16px;
+  color: #64748B;
+  margin-bottom: 30px;
+}
+
+.placeholder-illustration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.illustration-box {
+  width: 60px;
+  height: 60px;
+  background: #F4F7FB;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.illustration-line {
+  height: 8px;
+  background: #F4F7FB;
+  border-radius: 4px;
+}
+
+.illustration-line.long {
+  width: 120px;
+}
+
+.illustration-line.short {
+  width: 80px;
+}

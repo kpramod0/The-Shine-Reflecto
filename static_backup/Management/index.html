@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Service & Request</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header (SAME as Member) -->
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Home">
+      <img src="../logo.png" alt="Company Logo" class="logo" />
+      <div class="brand-text">
+        <span class="brand-title">TSR</span>
+        <span class="brand-subtitle">Supervisor Portal</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Notifications">
+        <span class="badge">3</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/>
+        </svg>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-btn" id="userMenuBtn" aria-expanded="false" aria-haspopup="true">
+          <img src="" alt="Profile" />
+          <span>John Smith</span>
+          <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5H7z"/></svg>
+        </button>
+        <nav class="user-dropdown" id="userDropdown" hidden>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+ 
+  <main class="container">
+    <header class="page-head">
+      <h1>Services & Reports</h1>
+      <p>Manage service and request modules, attendance, rosters and analytics.</p>
+    </header>
+
+    <!-- Cards (LINKS) -->
+    <section class="grid">
+      <a class="card" href="Task/index.html">
+        <div class="card-ico ico--blue">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h12v2H8V7ZM4 7h2v2H4V7Zm4 5h12v2H8v-2ZM4 12h2v2H4v-2Zm4 5h12v2H8v-2ZM4 17h2v2H4v-2Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Tasks</h2>
+          <p>Add tasks and view status</p>
+          <div class="meta">Active: <strong>15 tasks</strong></div>
+        </div>
+      </a>
+
+      <a class="card" href="Attendance/index.html">
+        <div class="card-ico ico--mint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v2H3V4Zm2 4h14v2H5V8Zm0 4h10v2H5v-2Zm0 4h14v2H5v-2Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Attendance Scans</h2>
+          <p>View & export attendance records</p>
+          <div class="meta">Today: <strong>89% present</strong></div>
+        </div>
+      </a>
+
+      <a class="card" href="Service/index.html">
+        <div class="card-ico ico--sky">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v2H5a3 3 0 0 0-3 3v7h20v-7a3 3 0 0 0-3-3h-2V7a5 5 0 0 0-5-5Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Service Requests</h2>
+          <p>Add and view service requests</p>
+          <div class="meta">Pending: <strong>7 requests</strong></div>
+        </div>
+      </a>
+
+      <a class="card" href="Roaster/index.html">
+        <div class="card-ico ico--amber">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2Zm13 6H4v12h16V8Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Roster Master</h2>
+          <p>View all created rosters</p>
+          <div class="meta">This week: <strong>28 rosters</strong></div>
+        </div>
+      </a>
+
+      <a class="card" href="Request/index.html">
+        <div class="card-ico ico--rose">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 1 21h22L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V9h2v4Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Requests & Complaints</h2>
+          <p>Handle user requests and complaints</p>
+          <div class="meta">Open: <strong>12 items</strong></div>
+        </div>
+      </a>
+
+      <a class="card" id="materialsLink" href="file:///C:/Programming/DS/TSR_Web/Management/Material/index.html">
+        <div class="card-ico ico--violet">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16a2 2 0 0 1 2 2v9H2V9a2 2 0 0 1 2-2Zm5-3h6a2 2 0 0 1 2 2v1H7V6a2 2 0 0 1 2-2Zm3 7h2v3h-2v-3Z"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h2>Materials</h2>
+          <p>View & manage material requests</p>
+          <div class="meta">Pending: <strong>—</strong></div>
+        </div>
+      </a>
+
+      <a class="card" href="Report/index.html">
+        <div class="card-ico ico--slate">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v18H3V3Zm4 12h2V9H7v6Zm4 3h2V6h-2v12Zm4-6h2v6h-2v-6Z"/></svg>
+        </div>
+        <div class="card-body">
+          <h2>Reports</h2>
+          <p>View analytics and reports</p>
+          <div class="meta">Generated: <strong>This month</strong></div>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer (EXACT as Dashboard) -->
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="../index.html" class="nav-link" data-key="home">🏠<span>Home</span></a>
+    <a href="../Member/index.html" class="nav-link" data-key="member">👥<span>Member</span></a>
+    <a href="../Management/index.html" class="nav-link active" data-key="management">📋<span>Management</span></a>
+    <a href="../Dashboard/index.html" class="nav-link" data-key="dashboard">📊<span>Dashboard</span></a>
+  </nav>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

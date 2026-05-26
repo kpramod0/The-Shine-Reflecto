@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login | The Shine Reflecto</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            padding: 20px;
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--gold-primary), var(--gold-secondary));
+        }
+        
+        .login-header {
+            margin-bottom: 40px;
+        }
+        
+        .login-header h1 {
+            font-size: 2rem;
+            margin: 16px 0 8px;
+        }
+        
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .login-form {
+            text-align: left;
+        }
+        
+        .otp-group {
+            display: none;
+            margin-top: 24px;
+        }
+        
+        .login-footer {
+            margin-top: 32px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .login-footer a {
+            color: var(--gold-primary);
+            text-decoration: none;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        
+        .back-home:hover {
+            color: var(--gold-primary);
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <a href="index.html" class="back-home">
+            ← Back to Home
+        </a>
+        
+        <div class="login-card glass-card reveal">
+            <div class="login-header">
+                <div class="brand-logo" style="margin: 0 auto;">TSR</div>
+                <h1>Staff Portal</h1>
+                <p>Enter your registered mobile number to continue</p>
+            </div>
+            
+            <div class="login-form">
+                <!-- Step 1: Mobile Number -->
+                <div id="mobileStep">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 0.9rem;">Mobile Number</label>
+                        <input type="tel" id="mobileInput" placeholder="+91 XXXXX XXXXX" required style="font-size: 1.2rem; letter-spacing: 1px;">
+                        <p id="mobileError" class="error-msg">You are not registered. Please contact administrator.</p>
+                    </div>
+                    <button id="sendOtpBtn" class="btn-primary full-width" style="margin-top: 12px;">Send OTP</button>
+                </div>
+                
+                <!-- Step 2: OTP (Hidden initially) -->
+                <div id="otpStep" style="display: none;">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 0.9rem;">Verification Code</label>
+                        <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 8px; font-weight: 800;">
+                        <p id="otpError" class="error-msg">Invalid OTP. Please try again.</p>
+                    </div>
+                    <button id="verifyOtpBtn" class="btn-primary full-width" style="margin-top: 12px;">Verify & Login</button>
+                    <p style="text-align: center; margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+                        Didn't receive code? <a href="#" style="color: var(--gold-primary); font-weight: 600;">Resend</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                <p>Only registered employees can access this portal.</p>
+                <p>© 2026 The Shine Reflecto</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileStep = document.getElementById('mobileStep');
+            const otpStep = document.getElementById('otpStep');
+            const sendOtpBtn = document.getElementById('sendOtpBtn');
+            const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+            const mobileInput = document.getElementById('mobileInput');
+            const otpInput = document.getElementById('otpInput');
+            const mobileError = document.getElementById('mobileError');
+            const otpError = document.getElementById('otpError');
+            
+            // Registered Mock Data
+            const REGISTERED_NUMBERS = ['8830227359', '1234567890'];
+            
+            sendOtpBtn.addEventListener('click', () => {
+                const mobile = mobileInput.value.replace(/\D/g, '');
+                
+                // Admin registration rule check
+                if (REGISTERED_NUMBERS.includes(mobile) || mobile.length === 10) {
+                    mobileError.style.display = 'none';
+                    mobileStep.style.display = 'none';
+                    otpStep.style.display = 'block';
+                } else {
+                    mobileError.style.display = 'block';
+                }
+            });
+            
+            verifyOtpBtn.addEventListener('click', () => {
+                const otp = otpInput.value;
+                
+                // Mock OTP verification (accepts 123456)
+                if (otp === '123456' || otp === '000000') {
+                    otpError.style.display = 'none';
+                    
+                    // Role redirection rule (Mock redirect to Supervisor Dashboard)
+                    // In a real app, this would fetch the role from the database
+                    window.location.href = 'index.html'; // For now back to landing, or use dashboard if available
+                    // Actually, based on previous code, let's redirect to the dashboard
+                    setTimeout(() => {
+                        window.location.href = 'Dashboard/index.html';
+                    }, 500);
+                } else {
+                    otpError.style.display = 'block';
+                }
+            });
+            
+            // Animation
+            setTimeout(() => {
+                document.querySelector('.reveal').classList.add('active');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

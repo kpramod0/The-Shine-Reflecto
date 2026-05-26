@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Member Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="Company Logo" class="logo" />
+      <div class="brand-text">
+        <span class="brand-title">TSR</span>
+        <span class="brand-subtitle">Supervisor Portal</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Notifications">
+        <span class="badge">1</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/>
+        </svg>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-btn" id="userMenuBtn" aria-expanded="false">
+          <img src="https://assets.codepen.io/85188/profile-pic.jpg" alt="Profile" />
+          <span>John Smith</span>
+          <svg viewBox="0 0 24 24" class="chev" aria-hidden="true">
+            <path d="M7 10l5 5 5-5H7z"/>
+          </svg>
+        </button>
+        <nav class="user-dropdown" id="userDropdown" hidden>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container">
+    <header class="page-head">
+      <h1>Member Portal</h1>
+      <p>Quick access to Users, Clients, and Supervisor Workers</p>
+    </header>
+
+    <!-- Cards -->
+    <section class="card-grid">
+      <!-- Users -->
+      <article class="card" id="card-users" tabindex="0" role="button" aria-label="Open Users">
+        <div class="card-icon icon-users">👤</div>
+        <div class="card-body">
+          <h2>Users</h2>
+          <p>Manage system users and details</p>
+        </div>
+        <div class="card-chev">›</div>
+      </article>
+
+      <!-- Clients -->
+      <article class="card" id="card-clients" tabindex="0" role="button" aria-label="Open Clients">
+        <div class="card-icon icon-clients">🤝</div>
+        <div class="card-body">
+          <h2>Clients</h2>
+          <p>View and manage client records</p>
+        </div>
+        <div class="card-chev">›</div>
+      </article>
+
+      <!-- Supervisor Workers -->
+      <article class="card" id="card-sup" tabindex="0" role="button" aria-label="Open Supervisor Workers">
+        <div class="card-icon icon-sup">🛠</div>
+        <div class="card-body">
+          <h2>Supervisor Workers</h2>
+          <p>Assign and track supervisor tasks</p>
+        </div>
+        <div class="card-chev">›</div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer mount: we inject the exact Dashboard footer via script.js -->
+  <div id="site-footer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

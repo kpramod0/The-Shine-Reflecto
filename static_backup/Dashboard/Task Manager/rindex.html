@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rounds & Requests Portal</title>
+
+  <!-- Normalize + Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/modern-normalize@2/modern-normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="rstyle.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Rounds &amp; Requests</h1>
+      <p class="sub">Filter by date, requester, client and type; view details and export results.</p>
+    </header>
+
+    <!-- FILTER BAR -->
+    <section class="bar card">
+      <div class="fg">
+        <label for="fromDate">From</label>
+        <input type="date" id="fromDate" />
+      </div>
+
+      <div class="fg">
+        <label for="toDate">To</label>
+        <input type="date" id="toDate" />
+      </div>
+
+      <div class="fg">
+        <label for="typeFilter">Type</label>
+        <select id="typeFilter">
+          <option value="ALL">All</option>
+          <option value="REQUEST">Requests</option>
+          <option value="PROPERTY_ROUND">Property Round</option>
+          <option value="SITE_VISIT">Site Visit</option>
+          <option value="MONTHLY_ROUND">Monthly Round</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label for="requestedBy">Requested by</label>
+        <select id="requestedBy">
+          <option value="ANY">Any</option>
+          <option value="CLIENT">Client</option>
+          <option value="WORKER">Worker</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label for="clientFilter">Client</label>
+        <select id="clientFilter">
+          <option value="ANY">Any</option>
+          <!-- options injected by JS -->
+        </select>
+      </div>
+
+      <div class="bar-actions">
+        <button class="export" id="btnCsv">Export CSV</button>
+      </div>
+    </section>
+
+    <!-- GRID: Chart + Table -->
+    <section class="grid">
+      <!-- Overall Ratings -->
+      <article class="card">
+        <h3 class="card-title">Overall Ratings</h3>
+        <canvas id="ratingChart" height="220" aria-label="Overall ratings" role="img"></canvas>
+      </article>
+
+      <!-- Data Table -->
+      <article class="card card--table">
+        <table class="table" id="dataTable">
+          <thead>
+            <tr>
+              <th class="nowrap">Date</th>
+              <th>Request Type</th>
+              <th>Requested By</th>
+              <th>Client</th>
+              <th>Check-IN</th>
+              <th>Check-OUT</th>
+              <th>Feedback</th>
+              <th>Resolution</th>
+              <th>Rating</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </article>
+    </section>
+  </div>
+
+  <script src="rscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Users • Member Portal</title>
+  <link rel="stylesheet" href="user.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="Company Logo" class="logo" />
+      <div class="brand-text">
+        <span class="brand-title">TSR</span>
+        <span class="brand-subtitle">Supervisor Portal</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Notifications">
+        <span class="badge">1</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-btn" id="userMenuBtn" aria-expanded="false">
+          <img src="https://assets.codepen.io/85188/profile-pic.jpg" alt="Profile" />
+          <span>John Smith</span>
+          <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5H7z"/></svg>
+        </button>
+        <nav class="user-dropdown" id="userDropdown" hidden>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <header class="page-head">
+      <div class="ph-left">
+        <h1>Users</h1>
+        <p>All workers, client HODs, supervisors, and admins</p>
+      </div>
+      <div class="ph-right">
+        <button id="btnAddUser" class="btn btn--primary">+ Add User</button>
+      </div>
+    </header>
+
+    <!-- Filters -->
+ <!-- Filters -->
+<section class="filters card">
+  <div class="fg fg--search">
+    <label for="q">Search</label>
+    <input id="q" type="text" placeholder="Search by name, ID, mobile…" />
+  </div>
+
+  <div class="fg">
+    <label for="fClient">Client</label>
+    <select id="fClient">
+      <option value="ALL">All clients</option>
+    </select>
+  </div>
+
+  <div class="fg">
+    <label for="fRole">Role</label>
+    <select id="fRole">
+      <option value="ALL">All roles</option>
+      <option value="Worker">Worker</option>
+      <option value="Client HOD">Client HOD</option>
+      <option value="Supervisor">Supervisor</option>
+      <option value="Admin">Admin</option>
+    </select>
+  </div>
+
+  <!-- 🆕 City Filter -->
+  <div class="fg">
+    <label for="fCity">City</label>
+    <select id="fCity">
+      <option value="ALL">All cities</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Chennai">Chennai</option>
+    </select>
+  </div>
+
+  <div class="fg">
+    <label for="fStatus">Status</label>
+    <select id="fStatus">
+      <option value="ALL">All</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+
+  <div class="fg fg--actions">
+    <label class="sr-only">Actions</label>
+    <div class="actions-inline">
+      <button id="btnClear" class="btn btn--ghost">Clear filters</button>
+      <button id="btnExport" class="btn">Export CSV</button>
+    </div>
+  </div>
+</section>
+
+<!-- Desktop Table -->
+<section class="card table-wrap">
+  <table class="table" id="userTable">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Employee ID</th>
+        <th>Mobile</th>
+        <th>Role</th>
+        <th>Aadhar</th>
+        <th>PAN</th>
+        <th>Client</th>
+        <!-- 🆕 City column -->
+        <th>City</th>
+        <th>Status</th>
+        <th>Active</th>
+        <th class="th-actions">Action</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</section>
+
+
+   
+    <!-- Mobile Cards -->
+    <section id="mList" class="m-list"></section>
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="../index.html" class="nav-link" data-key="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 8h-3v9H6v-9H3l9-8z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../Member/index.html" class="nav-link active" data-key="member">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-7 9v-1a7 7 0 0 1 14 0v1Z"/></svg>
+      <span>Member</span>
+    </a>
+    <!-- Services -> Management (label + href) -->
+    <a href="../Management/index.html" class="nav-link" data-key="management">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94a1.5 1.5 0 0 0-.35-1.53l-1.41-1.41a1.5 1.5 0 0 0-1.53-.35l-1.1.37a5.5 5.5 0 0 0-1.6-.93l-.17-1.15A1.5 1.5 0 0 0 9.98 5h-2a1.5 1.5 0 0 0-1.49 1.29l-.17 1.15a5.5 5.5 0 0 0-1.6.93l-1.1-.37a1.5 1.5 0 0 0-1.53.35L.68 10.76a1.5 1.5 0 0 0-.35 1.53l.37 1.1a5.36 5.36 0 0 0 0 1.86l-.37 1.1a1.5 1.5 0 0 0 .35 1.53l1.41 1.41a1.5 1.5 0 0 0 1.53.35l1.1-.37c.5.38 1.04.69 1.6.93l.17 1.15A1.5 1.5 0 0 0 7.98 23h2a1.5 1.5 0 0 0 1.49-1.29l.17-1.15c.56-.24 1.1-.55 1.6-.93l1.1.37a1.5 1.5 0 0 0 1.53-.35l1.41-1.41a1.5 1.5 0 0 0 .35-1.53l-.37-1.1c.11-.61.11-1.25 0-1.86l.37-1.1Z"/></svg>
+      <span>Management</span>
+    </a>
+    <a href="../Dashboard/index.html" class="nav-link" data-key="dashboard">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10Zm10 8h8V3h-8v18ZM3 21h8v-6H3v6Z"/></svg>
+      <span>Dashboard</span>
+    </a>
+  </nav>
+
+  <!-- Add User Modal (placeholder) -->
+  <div class="modal-backdrop" id="addBackdrop" hidden></div>
+  <div class="modal" id="addModal" hidden role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="modal__header">
+      <h3 id="addTitle">Add User</h3>
+      <button class="modal__close" id="addClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body">
+      <p>This is a placeholder. Hook up to your backend form.</p>
+      <button class="btn btn--primary" id="addOk">Okay</button>
+    </div>
+  </div>
+
+  <script src="user.js" defer></script>
+</body>
+</html>

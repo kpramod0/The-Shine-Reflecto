@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task History • TSR Supervisor Portal</title>
+  <link rel="stylesheet" href="tstyle.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a class="brand" href="../../index.html">
+      <img src="../../logo.png" alt="Company Logo" class="logo" />
+      <div class="brand-text">
+        <span class="brand-title">TSR</span>
+        <span class="brand-subtitle">Supervisor Portal</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Notifications">
+        <span class="badge">1</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
+      </button>
+      <div class="user-menu">
+        <button class="user-btn" id="userMenuBtn" aria-expanded="false">
+          <img src="https://assets.codepen.io/85188/profile-pic.jpg" alt="Profile" />
+          <span>John Smith</span>
+          <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5H7z"/></svg>
+        </button>
+        <nav class="user-dropdown" id="userDropdown" hidden>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <header class="page-head">
+      <div>
+        <h1>Task History</h1>
+        <p class="muted">Browse, filter and review all previously handled tasks.</p>
+      </div>
+      <div class="head-actions">
+        <button id="btnPdf" class="btn btn--ghost">📄 Export PDF</button>
+        <button id="btnCsv" class="btn btn--ghost">🧾 Export CSV</button>
+      </div>
+    </header>
+
+    <!-- Filters -->
+    <section class="card">
+      <div class="card__header">
+        <h3>Filters</h3>
+        <button class="toggle" data-target="#filtersBody" aria-expanded="true" title="Collapse/Expand">▾</button>
+      </div>
+      <div class="card__body" id="filtersBody">
+        <form id="filterForm" class="filters" onsubmit="return false;">
+          <div class="fg">
+            <label>Date range</label>
+            <div class="fg-row">
+              <input type="date" id="fromDate" />
+              <span>to</span>
+              <input type="date" id="toDate" />
+            </div>
+          </div>
+
+          <div class="fg">
+            <label for="statusSel">Status</label>
+            <select id="statusSel">
+              <option value="">All</option>
+              <option value="Completed">Completed</option>
+              <option value="In Progress">In Progress</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div class="fg">
+            <label for="prioritySel">Priority</label>
+            <select id="prioritySel">
+              <option value="">All</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+
+          <div class="fg">
+            <label for="clientSel">Client</label>
+            <select id="clientSel">
+              <option value="">All</option>
+              <!-- filled by JS -->
+            </select>
+          </div>
+
+          <!-- forces to next line and full width -->
+          <div class="fg fg--search">
+            <label for="q">Search (title / notes)</label>
+            <input id="q" type="text" placeholder="Type to search…" />
+          </div>
+
+          <div class="fg fg--actions">
+            <label class="sr-only">Actions</label>
+            <div class="actions-inline">
+              <button id="applyBtn" class="btn btn--primary">Apply</button>
+              <button id="clearBtn" type="button" class="btn btn--ghost">Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Performance -->
+    <section class="card">
+      <div class="card__header">
+        <h3>Worker Performance</h3>
+        <!-- one arrow controls ALL three blocks below -->
+        <button class="toggle" data-target="#perfAll" aria-expanded="true" title="Show/Hide all graphs">▾</button>
+      </div>
+
+      <div id="perfAll">
+        <!-- Stats -->
+        <div class="card__body" id="perfStats">
+          <div class="perf-stats">
+            <div class="stat">
+              <div class="stat__value" id="statThroughput">0</div>
+              <div class="stat__label">Throughout</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="statCompleted">0</div>
+              <div class="stat__label">Completed Tasks</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="statPending">0</div>
+              <div class="stat__label">Pending Tasks</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="statOnTime">0%</div>
+              <div class="stat__label">On-time %</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="statAvgCycle">0.0</div>
+              <div class="stat__label">Avg. Cycle Time (days)</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="statQuality">0</div>
+              <div class="stat__label">Quality Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donuts row -->
+        <div class="card__body" id="perfDonuts">
+          <div class="perf-grid">
+            <div class="panel">
+              <div class="panel__title">Work Status</div>
+              <div class="donut-wrap">
+                <div id="donutStatus" class="donut"></div>
+                <ul class="legend" id="legendStatus"></ul>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__title">Performance Rating</div>
+              <div class="donut-wrap">
+                <div id="donutRating" class="donut"></div>
+                <ul class="legend" id="legendRating"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Throughput line -->
+        <div class="card__body" id="perfTrend">
+          <div class="panel">
+            <div class="panel__title">Throughput (last 12 months)</div>
+            <div class="trend">
+              <svg id="trendSvg" viewBox="0 0 600 180" preserveAspectRatio="none"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="card">
+      <div class="card__header">
+        <h3>Results</h3>
+        <button class="toggle" data-target="#resultsBody" aria-expanded="true" title="Collapse/Expand">▾</button>
+      </div>
+
+      <div class="card__body" id="resultsBody">
+        <!-- Desktop table -->
+        <table class="table desktop-only" id="taskTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Client</th>
+              <th>Assigned On</th>
+              <th>Due</th>
+              <th>Completed</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Review</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- Mobile list -->
+        <div id="mobileList" class="mobile-list"></div>
+
+        <div id="emptyState" class="empty" hidden>
+          <div>🔍 No results found. Adjust filters or search again.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (paths adjusted for this file’s location) -->
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="../../index.html" class="nav-link" data-key="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 8h-3v9H6v-9H3l9-8z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../../Member/index.html" class="nav-link" data-key="member">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-7 9v-1a7 7 0 0 1 14 0v1Z"/></svg>
+      <span>Member</span>
+    </a>
+    <a href="../../Management/index.html" class="nav-link" data-key="management">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v3H4zm0 5h16v3H4zm0 5h16v3H4z"/></svg>
+      <span>Management</span>
+    </a>
+    <a href="../index.html" class="nav-link" data-key="dashboard">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10Zm10 8h8V3h-8v18ZM3 21h8v-6H3v6Z"/></svg>
+      <span>Dashboard</span>
+    </a>
+  </nav>
+
+  <div id="toast" class="toast">Exported</div>
+  <script src="tscript.js" defer></script>
+</body>
+</html>

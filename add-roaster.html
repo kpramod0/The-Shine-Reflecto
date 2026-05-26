@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Roster - TSR Web</title>
+  <link rel="stylesheet" href="a.css"/>
+</head>
+<body>
+  <!-- Header injected by a.js -->
+  <div id="site-header"></div>
+
+  <main class="container">
+    <header class="header">
+      <h2>Roster & Task Management</h2>
+      <div class="header-actions">
+        <button id="addRosterBtn" class="btn primary" type="button" aria-controls="rosterForm" aria-expanded="false">
+          <span>➕</span> Add Roster
+        </button>
+
+        <!-- Manage Roster (absolute file path as requested) -->
+        <a id="manageRosterBtn"
+           class="btn outline"
+           href="file:///C:/Programming/DS/TSR_Web/Dashboard/Roaster/index.html"
+           title="Go to roster management">
+          🗂️ Manage Roster
+        </a>
+      </div>
+    </header>
+
+    <!-- Roster Form -->
+    <section id="rosterForm" class="form hidden" aria-hidden="true">
+      <h3>Create New Roster</h3>
+
+      <label>
+        Select Supervisor
+        <select id="supervisor">
+          <option>John Supervisor - SUP001</option>
+          <option>Sarah Manager - SUP002</option>
+          <option>Mike Lead - SUP003</option>
+        </select>
+      </label>
+
+      <div class="row">
+        <div class="date-options" role="group" aria-label="Date Options">
+          <p>Date Options</p>
+          <button id="singleDateBtn" type="button" class="btn option active" aria-pressed="true">Single Date</button>
+          <button id="dateRangeBtn" type="button" class="btn option" aria-pressed="false">Date Range</button>
+        </div>
+      </div>
+
+      <!-- Single date ONLY -->
+      <div id="singleDateInput">
+        <label>
+          Select Date
+          <input type="date" id="singleDate" />
+        </label>
+      </div>
+
+      <!-- Range ONLY -->
+      <div id="dateRangeInputs" class="hidden grid2">
+        <label>
+          Start Date
+          <input type="date" id="startDate"/>
+        </label>
+        <label>
+          End Date
+          <input type="date" id="endDate"/>
+        </label>
+      </div>
+
+      <div class="row grid2">
+        <label>
+          Shift
+          <select id="shift">
+            <option>Day Shift (9AM - 9PM)</option>
+            <option>Night Shift (9PM - 9AM)</option>
+          </select>
+        </label>
+
+        <!-- Client options are rendered by JS so we can hide ones used in queued rosters -->
+        <label>
+          Client
+          <select id="client"></select>
+        </label>
+      </div>
+
+      <label>
+        Select Workers
+        <div class="worker-select">
+          <!-- Options are injected by JS so we can hide used workers -->
+          <select id="workerSelect" aria-label="Choose worker"></select>
+          <!-- The + button is kept for keyboard users, but selection will also auto-add on change -->
+          <button id="addWorkerBtn" type="button" class="btn success" aria-label="Add selected worker">+</button>
+        </div>
+      </label>
+
+      <div id="selectedWorkers" class="selected-workers" aria-live="polite"></div>
+
+      <div class="actions">
+        <button id="submitRosterBtn" type="button" class="btn success">✔ Submit Roster</button>
+        <button id="addMoreRosterBtn" type="button" class="btn primary">➕ Add More Roster</button>
+        <button id="cancelRosterBtn" type="button" class="btn secondary">Cancel</button>
+      </div>
+
+      <p id="queuedHint" class="hint hidden">
+        You have <span id="queuedCount">0</span> roster(s) queued. Click “Submit All Rosters” to finalize.
+      </p>
+    </section>
+
+    <!-- Queue panel: shows previously added (queued) rosters when creating multiple -->
+    <section id="queuePanel" class="queue hidden" aria-live="polite">
+      <div class="queue-head">
+        <h3>Queued Rosters</h3>
+        <small>(These will submit together)</small>
+      </div>
+      <div id="queueList" class="queue-list"></div>
+    </section>
+  </main>
+
+  <!-- Footer injected by a.js -->
+  <div id="site-footer"></div>
+
+  <script src="a.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+/* Layout */
+body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#fafafa;color:#111;}
+.wrap{max-width:1200px;margin:24px auto;padding:0 16px;}
+.page-head h1{margin:0 0 4px}
+.sub{margin:0 0 16px;color:#6b7280}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+.card-title{margin:4px 0 12px}
+
+/* Filters bar */
+.bar{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(140px,1fr)) auto;
+  gap:12px; align-items:end; margin-bottom:16px
+}
+.fg label{font-size:12px;color:#555;display:block;margin-bottom:6px}
+.fg input[type="date"], .fg select{
+  padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;background:#fff
+}
+.bar-actions{display:flex;justify-content:flex-end;align-items:center}
+
+/* Buttons */
+.export{padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer}
+.export:hover{background:#f8fafc}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:360px 1fr;gap:16px}
+@media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+
+/* Table */
+.card--table{padding:0}
+.table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden}
+.table th,.table td{padding:10px;border-bottom:1px solid #eee;font-size:14px;vertical-align:top}
+.table th{background:#f8fafc;text-align:left;color:#374151}
+.nowrap{white-space:nowrap}
+
+/* Utilities */
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;border:1px solid #e5e7eb;background:#f9fafb}
+.rating{font-weight:600}
+.img-thumb{height:32px;width:48px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;margin-right:6px}
+details summary{cursor:pointer;color:#2563eb}

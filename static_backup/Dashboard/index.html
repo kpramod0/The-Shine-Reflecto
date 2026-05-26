@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employee Profile & Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header injected by script.js (same as Home) -->
+  <div id="site-header"></div>
+
+  <main class="page-container">
+    <!-- Employee Card -->
+    <section class="employee-card" aria-label="Employee profile">
+      <div class="profile-picture">
+        <img id="emp-pic" src="" alt="Profile Picture" loading="lazy" />
+      </div>
+      <div class="employee-info">
+        <h2 id="emp-name" class="employee-name"></h2>
+        <p id="emp-id" class="employee-meta-text"></p>
+        <p id="emp-designation" class="employee-meta-text"></p>
+        <div class="employee-status-row">
+          <span id="emp-status" class="status-tag"></span>
+          <p id="emp-join-date" class="employee-meta-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attendance & Leave Summary -->
+    <header class="page-heading">
+      <h1>Attendance & Leave Summary</h1>
+    </header>
+
+    <section class="stats-filter-section" aria-label="Filters and statistic cards">
+      <div class="stats-filter">
+        <label for="statsFilter">Filter by:</label>
+        <select id="statsFilter" aria-label="Select period">
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="year">This Year</option>
+          <option value="all" selected>Till Now</option>
+        </select>
+      </div>
+
+      <div class="stats-grid">
+        <!-- Days Worked -->
+        <button class="stat-card stat--green linklike" data-nav="attendance">
+          <div class="stat-card__icon">
+            <svg viewBox="0 0 24 24"><path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a1 1 0 0 1 1-1Zm0 8H5v9h14v-9H7Z"/></svg>
+          </div>
+          <div class="stat-card__body">
+            <h3 class="stat-card__title">Days Worked</h3>
+            <div class="stat-card__value" id="statDaysWorked">0</div>
+            <p class="stat-card__sub" id="subDaysWorked">Selected period</p>
+          </div>
+        </button>
+
+        <!-- Official Leaves -->
+        <div class="stat-card stat--blue">
+          <div class="stat-card__icon">
+            <svg viewBox="0 0 24 24"><path d="M2 11c3-6 10-9 16-6a1 1 0 0 1 .22 1.66L9.83 14.05 8 12l-3 3-1.5-1.5L6.3 10.7 5 9.4 2 11Z"/></svg>
+          </div>
+          <div class="stat-card__body">
+            <h3 class="stat-card__title">Official Leaves</h3>
+            <div class="stat-card__value" id="statLeaves">0</div>
+            <p class="stat-card__sub">Approved leaves</p>
+          </div>
+        </div>
+
+        <!-- Unofficial Absences -->
+        <div class="stat-card stat--amber">
+          <div class="stat-card__icon">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0ZM12 9a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Zm0 8a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 12 17Z"/></svg>
+          </div>
+          <div class="stat-card__body">
+            <h3 class="stat-card__title">Unofficial Absences</h3>
+            <div class="stat-card__value" id="statAbsences">0</div>
+            <p class="stat-card__sub">Unplanned absences</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature links -->
+    <section class="feature-grid">
+      <button class="feature-card linklike" data-nav="attendance">
+        <div class="feature-card__header">
+          <div class="feature-card__icon feature-card__icon--blue">📊</div>
+          <div class="feature-card__title">
+            <h3>Attendance Breakdown</h3>
+            <p>View detailed attendance records</p>
+          </div>
+          <div class="feature-card__arrow">→</div>
+        </div>
+        <hr />
+        <div class="feature-card__footer">
+          <span>This Month:</span>
+          <strong id="attendanceSummary">22/23 days</strong>
+        </div>
+      </button>
+
+      <button class="feature-card linklike" data-nav="task">
+        <div class="feature-card__header">
+          <div class="feature-card__icon feature-card__icon--gray">🗂</div>
+          <div class="feature-card__title">
+            <h3>Task Manager</h3>
+            <p>View and manage assigned tasks</p>
+          </div>
+          <div class="feature-card__arrow">→</div>
+        </div>
+        <hr />
+        <div class="feature-card__footer">
+          <span>Active Tasks:</span>
+          <strong id="taskSummary">5 pending</strong>
+        </div>
+      </button>
+    </section>
+
+    <!-- Raise a Query -->
+    <section class="query-section">
+      <h2>Raise a Query</h2>
+      <p class="query-subtitle">Submit requests, complaints, or get technical support</p>
+
+      <div class="query-grid">
+        <div class="query-card" data-nav="request">
+          <div class="query-icon query-icon--blue">✋</div>
+          <h3>Request</h3>
+          <p>Submit general requests</p>
+        </div>
+
+        <div class="query-card" data-nav="complaint">
+          <div class="query-icon query-icon--red">❗</div>
+          <h3>Complaint</h3>
+          <p>Report workplace issues</p>
+        </div>
+
+        <div class="query-card" data-nav="material">
+          <div class="query-icon query-icon--amber">📦</div>
+          <h3>Material Requirement</h3>
+          <p>Request supplies or equipment</p>
+        </div>
+
+        <div class="query-card" data-nav="ticket">
+          <div class="query-icon query-icon--teal">🎟</div>
+          <h3>Ticket</h3>
+          <p>Create/track tickets</p>
+        </div>
+
+        <div class="query-card" data-nav="payment">
+          <div class="query-icon query-icon--green">💳</div>
+          <h3>Payment</h3>
+          <p>Invoices & settlements & Advance Payments</p>
+        </div>
+
+        <div class="query-card" data-nav="tech">
+          <div class="query-icon query-icon--gray">👨‍💻</div>
+          <h3>Technical Team</h3>
+          <p>Meet or contact tech team</p>
+        </div>
+
+        <div class="query-card" data-nav="roaster">
+          <div class="query-icon query-icon--blue">📅</div>
+          <h3>Roaster Master</h3>
+          <p>Manage roaster configuration</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Help box -->
+    <section class="help-box">
+      <div class="help-header">
+        <div class="help-icon">🎧</div>
+        <div>
+          <h3>Need Immediate Help?</h3>
+          <p>Contact our technical support team</p>
+        </div>
+      </div>
+      <div class="help-contacts">
+        <a href="tel:18007787767" class="help-contact">📞 1-800-SUPPORT</a>
+        <a href="mailto:support@tsrxxxxx.com" class="help-contact">✉️ support@tsrxxxxx.com</a>
+        <a href="https://wa.me/1234567890" target="_blank" class="help-contact">💬 WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer injected by script.js (same as Home) -->
+  <div id="site-footer"></div>
+
+  <!-- Centered modal alert -->
+  <div id="center-alert" class="center-alert" hidden>
+    <div class="center-alert__box" role="dialog" aria-modal="true">
+      <div id="center-alert-text">Coming Soon! Stay Updated</div>
+      <button id="center-alert-close" class="btn btn--primary">OK</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

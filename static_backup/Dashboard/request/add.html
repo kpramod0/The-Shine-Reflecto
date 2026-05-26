@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Add Request • TSR</title>
+  <link rel="stylesheet" href="add.css"/>
+</head>
+<body>
+  <!-- Header (injected by add.js) -->
+  <div id="site-header"></div>
+
+  <main class="page">
+    <header class="page-head">
+      <h1 class="title">Add Request</h1>
+      <p class="sub">Fill in the details below to create a new request</p>
+    </header>
+
+    <form id="requestForm" class="card form" novalidate>
+      <div class="form-row">
+        <div class="fg">
+          <label for="requestFor">Request for<span class="req">*</span></label>
+          <select id="requestFor" required>
+            <option value="">Select</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Admin">Admin</option>
+          </select>
+          <small class="err" data-for="requestFor"></small>
+        </div>
+
+        <div class="fg">
+          <label for="onBehalf">On behalf of<span class="req">*</span></label>
+          <select id="onBehalf" required>
+            <option value="">Select</option>
+            <option value="Myself">Myself</option>
+            <option value="Worker">Worker</option>
+            <option value="Client">Client</option>
+          </select>
+          <small class="err" data-for="onBehalf"></small>
+        </div>
+
+        <div class="fg" id="nameWrap" hidden>
+          <label for="nameInput">Name</label>
+          <input id="nameInput" type="text" placeholder="Enter name"/>
+        </div>
+      </div>
+
+      <fieldset class="fg fg--fieldset">
+        <legend>Reason for request <span class="hint">(multiple allowed)</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="reason" value="Area Related"> <span>Area Related</span></label>
+          <label class="chip"><input type="checkbox" name="reason" value="Staff Related"> <span>Staff Related</span></label>
+          <label class="chip"><input type="checkbox" id="reasonOthers" name="reason" value="Others"> <span>Others</span></label>
+        </div>
+      </fieldset>
+
+      <div class="fg" id="othersWrap" hidden>
+        <label for="othersText">Other reason</label>
+        <input id="othersText" type="text" placeholder="Type other reason"/>
+      </div>
+
+      <div class="fg">
+        <label for="describe">Describe</label>
+        <textarea id="describe" rows="5" placeholder="Describe your request..."></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn--primary">Submit</button>
+        <button type="reset" class="btn btn--ghost">Clear</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer (injected by add.js) -->
+  <div id="site-footer"></div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="add.js" defer></script>
+</body>
+</html>

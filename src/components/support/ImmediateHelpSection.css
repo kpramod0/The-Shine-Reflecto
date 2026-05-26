@@ -1,0 +1,87 @@
+.immediate-help-section {
+  background-color: #EEF7FF;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-top: 16px;
+  width: 100%;
+}
+
+.immediate-help-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.immediate-help-icon-wrap {
+  width: 48px;
+  height: 48px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94A3B8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.immediate-help-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0B1220;
+  margin: 0 0 4px 0;
+}
+
+.immediate-help-subtitle {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+}
+
+.immediate-help-contacts {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.help-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0B1220;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.help-contact-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.help-icon-phone { color: #E11D48; }
+.help-icon-mail { color: #8B5CF6; }
+.help-icon-wa { color: #10B981; }
+
+@media (max-width: 768px) {
+  .immediate-help-section {
+    padding: 18px;
+  }
+  
+  .immediate-help-contacts {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .help-contact-item {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}

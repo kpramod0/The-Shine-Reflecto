@@ -1,0 +1,23 @@
+/* WhatsApp floating button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 500;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float-gif {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 50%;
+}

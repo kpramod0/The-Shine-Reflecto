@@ -1,0 +1,488 @@
+/* ── Member Portal Base ──────────────────────────────────── */
+.mp-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 24px;
+}
+
+.mp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mp-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0B0E17;
+  margin: 0 0 6px 0;
+}
+
+.mp-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* ── Hub Cards ───────────────────────────────────────────── */
+.mp-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.mp-hub-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  text-align: left;
+}
+
+.mp-hub-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: #CBD5E1;
+}
+
+.mp-hub-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.mp-hub-info {
+  flex: 1;
+}
+
+.mp-hub-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B0E17;
+  margin: 0 0 4px 0;
+}
+
+.mp-hub-desc {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0;
+}
+
+.mp-hub-arrow {
+  color: #94A3B8;
+}
+
+/* ── Common Filter Bar ───────────────────────────────────── */
+.mp-filter-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(11,18,32,0.04);
+  border: 1px solid #F1F5F9;
+}
+
+.mp-filter-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mp-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.mp-filter-group.search {
+  flex: 2;
+  min-width: 200px;
+}
+
+.mp-filter-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0B0E17;
+}
+
+.mp-input, .mp-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  font-size: 14px;
+  color: #374151;
+  background: #fff;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.mp-input:focus, .mp-select:focus {
+  border-color: #2563EB;
+}
+
+.mp-filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mp-btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #E2E8F0;
+  background: #fff;
+  color: #0B0E17;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.mp-btn:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+}
+
+.mp-btn-primary {
+  background: #2563EB;
+  color: #fff;
+  border: none;
+}
+
+.mp-btn-primary:hover {
+  background: #1D4ED8;
+}
+
+/* ── Desktop Table View ──────────────────────────────────── */
+.mp-table-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(11,18,32,0.04);
+  border: 1px solid #F1F5F9;
+  overflow-x: auto;
+}
+
+.mp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.mp-table th {
+  padding: 16px 20px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.mp-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #0B0E17;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: middle;
+}
+
+.mp-table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+/* Status Pills */
+.mp-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mp-status-pill.active {
+  background: #ECFDF5;
+  color: #059669;
+  border: 1px solid #A7F3D0;
+}
+
+.mp-status-pill.inactive {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+}
+
+.mp-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Toggles & Actions */
+.mp-toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 100px;
+  background: #E2E8F0;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.mp-toggle.on {
+  background: #10B981;
+}
+
+.mp-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.mp-toggle.on::after {
+  transform: translateX(20px);
+}
+
+.mp-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mp-action-btn:hover {
+  background: #E2E8F0;
+  color: #0B0E17;
+}
+
+.mp-link {
+  color: #2563EB;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mp-link:hover {
+  color: #1D4ED8;
+}
+
+/* Photo Box */
+.mp-photo-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748B;
+}
+
+/* ── Expandable Rows (Desktop) ───────────────────────────── */
+.mp-expanded-row td {
+  padding: 0 !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+  background: #F8FAFC;
+}
+
+.mp-expanded-content {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.mp-expand-col-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0B0E17;
+  margin: 0 0 12px 0;
+}
+
+.mp-expand-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.mp-expand-icon {
+  color: #0B0E17;
+  margin-top: 2px;
+}
+
+/* HOD specific */
+.mp-hod-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-hod-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #64748B;
+}
+
+.mp-hod-name {
+  font-weight: 700; color: #0B0E17; margin-bottom: 2px;
+}
+
+.mp-hod-role {
+  color: #64748B; font-size: 12px; margin-bottom: 2px;
+}
+
+/* ── Mobile Compact Cards ────────────────────────────────── */
+.mp-mobile-list {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mp-mobile-card {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(11,18,32,0.03);
+  overflow: hidden;
+}
+
+.mp-mc-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.mp-mc-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-mc-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0B0E17;
+  margin: 0 0 2px 0;
+}
+
+.mp-mc-sub {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0;
+}
+
+.mp-mc-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-mc-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.mp-mc-dot.active { background: #10B981; }
+.mp-mc-dot.inactive { background: #EF4444; }
+
+.mp-mc-chevron {
+  color: #94A3B8;
+  transition: transform 0.2s;
+}
+.mp-mc-chevron.open {
+  transform: rotate(180deg);
+}
+
+.mp-mc-body {
+  padding: 16px;
+  border-top: 1px solid #F1F5F9;
+  background: #F8FAFC;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mp-mc-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mp-mc-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.mp-mc-value {
+  font-size: 14px;
+  color: #0B0E17;
+  font-weight: 500;
+}
+
+/* ── Responsive Visibility ───────────────────────────────── */
+@media (max-width: 900px) {
+  .mp-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .mp-table-card {
+    display: none;
+  }
+  .mp-mobile-list {
+    display: flex;
+  }
+  .mp-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mp-filter-actions {
+    justify-content: stretch;
+  }
+  .mp-filter-actions .mp-btn {
+    flex: 1;
+  }
+}

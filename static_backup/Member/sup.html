@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Supervisor Workers • Mapping</title>
+  <link rel="stylesheet" href="sup.css" />
+</head>
+<body>
+  <!-- Decorative top ribbon -->
+  <div class="hero"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Go to Home">
+      <img src="../logo.png" alt="Company Logo" class="logo" />
+      <div class="brand-text">
+        <span class="brand-title">TSR</span>
+        <span class="brand-subtitle">Supervisor Portal</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Notifications">
+        <span class="badge">2</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-btn" id="userMenuBtn" aria-expanded="false" aria-haspopup="true">
+          <img src="https://i.pravatar.cc/60?img=15" alt="Profile" />
+          <span>John Smith</span>
+          <svg viewBox="0 0 24 24" class="chev" aria-hidden="true"><path d="M7 10l5 5 5-5H7z"/></svg>
+        </button>
+        <nav class="user-dropdown" id="userDropdown" hidden>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <header class="page-head card glass">
+      <div class="ph-left">
+        <h1>Supervisor Workers</h1>
+        <p>Map field workers to supervisors. Each worker belongs to exactly one supervisor.</p>
+      </div>
+      <div class="ph-right">
+        <button id="btnOpenMap" class="btn btn--primary">
+          <span class="btn-ico">🧭</span> Map Field Worker
+        </button>
+      </div>
+    </header>
+
+    <!-- Search / Filters -->
+    <section class="filters card glass">
+      <div class="fg fg--search">
+        <label for="q">Search</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/></svg>
+          <input id="q" type="text" placeholder="Search supervisor or worker…" />
+        </div>
+      </div>
+
+      <div class="fg">
+        <label for="supFilter">Supervisor</label>
+        <select id="supFilter"></select>
+      </div>
+
+      <div class="fg fg--actions">
+        <label class="sr-only">Actions</label>
+        <div class="actions-inline">
+          <button id="btnClear" class="btn btn--ghost">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table (desktop) -->
+    <section class="card glass table-wrap">
+      <table class="table" id="mapTable">
+        <thead>
+          <tr>
+            <th>Supervisor Name</th>
+            <th>Field Workers</th>
+            <th class="t-right">Action</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </section>
+
+    <!-- Mobile list -->
+    <section id="mList" class="m-list" aria-label="Supervisors (mobile)"></section>
+  </main>
+
+  <!-- Footer -->
+  <nav class="bottom-nav" aria-label="Primary">
+    <a href="../index.html" class="nav-link" data-key="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 8h-3v9H6v-9H3l9-8z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="../Member/index.html" class="nav-link active" data-key="member">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-7 9v-1a7 7 0 0 1 14 0v1Z"/></svg>
+      <span>Member</span>
+    </a>
+    <a href="../management/index.html" class="nav-link" data-key="management">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm3 3v10h2V7H8zm6 0v10h2V7h-2z"/></svg>
+      <span>Management</span>
+    </a>
+    <a href="../Dashboard/index.html" class="nav-link" data-key="dashboard">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10Zm10 8h8V3h-8v18ZM3 21h8v-6H3v6Z"/></svg>
+      <span>Dashboard</span>
+    </a>
+  </nav>
+
+  <!-- Mapping Modal -->
+  <div class="modal-backdrop" id="mapBackdrop" hidden></div>
+  <div class="modal" id="mapModal" hidden role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+    <div class="modal__header">
+      <h3 id="mapTitle">Map Field Workers</h3>
+      <button class="modal__close" id="mapClose" aria-label="Close">✕</button>
+    </div>
+
+    <div class="modal__body">
+      <div class="modal-row">
+        <div class="fg">
+          <label for="mapSupSel">Supervisor</label>
+          <select id="mapSupSel"></select>
+        </div>
+        <label class="toggle" title="Allow moving a worker from one supervisor to another">
+          <input type="checkbox" id="allowReassign" />
+          <span></span> Allow reassignment
+        </label>
+      </div>
+
+      <div class="dual">
+        <div class="list-pane">
+          <div class="pane-head">
+            <strong>Available Workers</strong>
+            <div class="input-wrap input--sm">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/></svg>
+              <input id="availSearch" type="text" placeholder="Search…" />
+            </div>
+          </div>
+          <ul id="availList" class="list-box" aria-label="Available workers"></ul>
+        </div>
+
+        <div class="dual-actions">
+          <button id="btnAdd" class="btn btn--primary">Add selected →</button>
+          <button id="btnRemove" class="btn btn--ghost">← Remove selected</button>
+        </div>
+
+        <div class="list-pane">
+          <div class="pane-head">
+            <strong>Assigned to <span id="selSupName">—</span></strong>
+            <div class="input-wrap input--sm">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/></svg>
+              <input id="asgnSearch" type="text" placeholder="Search…" />
+            </div>
+          </div>
+          <ul id="asgnList" class="list-box" aria-label="Assigned workers"></ul>
+        </div>
+      </div>
+
+      <div class="modal__footer">
+        <button id="mapSave" class="btn btn--primary">Save</button>
+        <button id="mapCancel" class="btn btn--ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sup.js" defer></script>
+</body>
+</html>

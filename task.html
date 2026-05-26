@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Task · TSR Supervisor Portal</title>
+  <link rel="stylesheet" href="task.css" />
+</head>
+<body>
+  <!-- Header injected by task.js -->
+  <div id="site-header"></div>
+
+  <main class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span class="current">Add Task</span>
+    </nav>
+
+    <header class="page-head">
+      <h1>Add Task</h1>
+      <a class="ghost-btn" href="task-list.html" id="taskListLink">Tasks List</a>
+    </header>
+
+    <!-- Assign To -->
+    <section class="card">
+      <div class="card-title">Assign To</div>
+      <div class="grid g-2 g-1-sm">
+        <div class="fg">
+          <label class="lbl" for="supervisorSel">Supervisor</label>
+          <select id="supervisorSel" class="inp"></select>
+        </div>
+
+        <div class="fg">
+          <label class="lbl" for="clientSel">Client</label>
+          <select id="clientSel" class="inp">
+            <option value="" disabled selected>Select…</option>
+          </select>
+        </div>
+
+        <!-- Workers multi-select with serial chips + add-more -->
+        <div class="fg">
+          <label class="lbl">
+            Field Workers <span id="workersCount" class="count-badge" hidden>0</span>
+          </label>
+          <div class="workers-row">
+            <div id="workersMulti" class="mselect" aria-label="Select field workers">
+              <button id="workersBtn" type="button" class="mselect-btn" aria-haspopup="true" aria-expanded="false">
+                Select workers…
+              </button>
+              <div id="workersPanel" class="mselect-panel" role="listbox" aria-multiselectable="true"></div>
+            </div>
+            <button id="addMoreBtn" type="button" class="add-more" title="Add more workers" hidden>＋ Add more</button>
+          </div>
+          <small class="hint">Pick one or more workers. When one is chosen, use “＋ Add more” to add others.</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task Info -->
+    <section class="card">
+      <div class="card-title">Task’s Information</div>
+      <div class="grid g-2 g-1-sm">
+        <div class="fg">
+          <label class="lbl" for="taskName">Name <span class="req">*</span></label>
+          <input id="taskName" type="text" class="inp" placeholder="Ex: Diamond pad polishing – lobby" />
+        </div>
+        <div class="fg">
+          <label class="lbl" for="prioritySel">Priority</label>
+          <select id="prioritySel" class="inp">
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl" for="details">Details</label>
+        <textarea id="details" class="inp" rows="5" placeholder="Describe the work to be done, checkpoints, safety notes, etc."></textarea>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class="card">
+      <div class="card-title">Schedule</div>
+
+      <div class="seg" role="tablist" aria-label="Schedule mode">
+        <label class="seg-item">
+          <input type="radio" name="scheduleMode" value="single" checked />
+          <span>Single Day</span>
+        </label>
+        <label class="seg-item">
+          <input type="radio" name="scheduleMode" value="range" />
+          <span>Multiple Days (date range)</span>
+        </label>
+      </div>
+
+      <!-- Single Day ONLY -->
+      <div id="singleDayWrap" class="grid g-3 g-1-sm mt-12">
+        <div class="fg">
+          <label class="lbl" for="singleDate">Date</label>
+          <input id="singleDate" type="date" class="inp" />
+        </div>
+        <div class="fg">
+          <label class="lbl" for="singleShift">Shift</label>
+          <select id="singleShift" class="inp">
+            <option value="" disabled selected>Select shift…</option>
+            <option value="Day">Day</option>
+            <option value="Night">Night</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="lbl" for="singleTime">Time (optional)</label>
+          <input id="singleTime" type="time" class="inp" />
+        </div>
+      </div>
+
+      <!-- Multiple Days ONLY -->
+      <div id="rangeWrap" class="grid g-2 g-1-sm mt-12" hidden>
+        <div class="fg">
+          <label class="lbl" for="startDT">Start Date & Time</label>
+          <input id="startDT" type="datetime-local" class="inp" />
+        </div>
+        <div class="fg">
+          <label class="lbl" for="endDT">End Date & Time</label>
+          <input id="endDT" type="datetime-local" class="inp" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="card">
+      <div class="card-title">Services Details</div>
+      <div class="grid g-3 g-1-sm">
+        <div class="fg">
+          <label class="lbl" for="serviceSel">Service</label>
+          <select id="serviceSel" class="inp">
+            <option value="" disabled selected>Select…</option>
+            <option value="Marble/Stones Carpet Cleaning">Marble/Stones Carpet Cleaning</option>
+            <option value="Stone Treatment with Custom Workflows">Stone Treatment with Custom Workflows</option>
+            <option value="Others">Others</option>
+          </select>
+          <div id="serviceOtherWrap" class="mt-8 collapse" hidden>
+            <input id="serviceOther" class="inp" type="text" placeholder="Describe other service…" />
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl" for="areaSel">Service Area</label>
+          <select id="areaSel" class="inp">
+            <option value="" disabled selected>Select…</option>
+            <option>Public Areas</option>
+            <option>Back Area</option>
+            <option>Guestrooms</option>
+            <option value="Others">Others</option>
+          </select>
+          <div id="areaOtherWrap" class="mt-8 collapse" hidden>
+            <input id="areaOther" class="inp" type="text" placeholder="Describe other area…" />
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl" for="subAreaSel">Sub Area</label>
+          <select id="subAreaSel" class="inp">
+            <option value="" disabled selected>Select…</option>
+          </select>
+          <div id="subAreaOtherWrap" class="mt-8 collapse" hidden>
+            <input id="subAreaOther" class="inp" type="text" placeholder="Describe other sub area…" />
+          </div>
+          <small class="hint">Sub areas change based on selected Service Area.</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attachments -->
+    <section class="card">
+      <div class="card-title">Attachments</div>
+      <div class="fg">
+        <label class="lbl" for="photos">Upload Photos</label>
+        <input id="photos" type="file" accept="image/*" multiple class="inp" />
+      </div>
+      <div id="preview" class="preview-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Actions -->
+    <section class="actions">
+      <button class="btn" id="saveTask">Save Task</button>
+      <button class="btn ghost" id="resetForm">Reset</button>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <!-- Footer injected by task.js -->
+  <div id="site-footer"></div>
+
+  <script src="task.js" defer></script>
+</body>
+</html>

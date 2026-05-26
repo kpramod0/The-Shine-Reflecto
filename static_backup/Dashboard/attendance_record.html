@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Attendance Records</title>
+  <link rel="stylesheet" href="astyle.css" />
+</head>
+<body>
+  <!-- Header injected by ascript.js -->
+  <div id="site-header"></div>
+
+  <main class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a class="bc-link" href="../index.html">Dashboard</a>
+      <span class="bc-sep">•</span>
+      <span class="bc-current">Attendance Records</span>
+    </nav>
+
+    <!-- Page title row -->
+    <header class="page-head">
+      <div class="head-titles">
+        <h1 class="h1">Attendance Records</h1>
+        <p class="sub">Track your attendance history and Your Performance</p>
+      </div>
+
+      <div class="month-picker">
+        <button class="btn-ghost" id="monthPrev" aria-label="Previous month">◀</button>
+        <select id="monthSel" aria-label="Month"></select>
+        <select id="yearSel" aria-label="Year"></select>
+        <button class="btn-ghost" id="monthNext" aria-label="Next month">▶</button>
+      </div>
+    </header>
+
+    <!-- Calendar + Sidebar -->
+    <section class="grid main-grid">
+      <!-- Calendar card -->
+      <div class="card" id="calCard">
+        <div class="card-head">
+          <strong id="calTitle">September 2025</strong>
+          <div class="card-actions">
+            <button class="btn-ghost btn-sm" id="calHideBtn">Hide</button>
+            <button class="btn-ghost btn-sm" id="calShowBtn" hidden>Unhide</button>
+            <!-- Arrow now collapses just the calendar grid -->
+            <button class="chev" id="calCollapse" data-target="#calWrap" aria-expanded="true" title="Collapse calendar">▾</button>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <ul class="legend" role="list">
+          <li><span class="dot dot--present"></span> Present</li>
+          <li><span class="dot dot--official"></span> Official Leave</li>
+          <li><span class="dot dot--unofficial"></span> Unofficial Absence</li>
+          <li><span class="dot dot--weekend"></span> Weekend/Holiday</li>
+        </ul>
+
+        <div class="cal-wrap" id="calWrap">
+          <div class="cal-grid">
+            <div class="dow">Sun</div><div class="dow">Mon</div><div class="dow">Tue</div>
+            <div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div>
+            <div id="calDays"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right sidebar -->
+      <aside class="right-col">
+        <div class="card">
+          <div class="card-head">
+            <strong id="sumTitle">September 2025 Summary</strong>
+            <!-- This arrow now works -->
+            <button class="chev" data-target="#sumBody" aria-expanded="true">▾</button>
+          </div>
+          <div id="sumBody" class="card-body">
+            <div class="kpi kpi--green">
+              <div class="kpi-left">
+                <div class="kpi-title">Days Worked</div>
+                <div class="kpi-sub">This month</div>
+              </div>
+              <div class="kpi-val" id="kpiWorked">0</div>
+            </div>
+
+            <div class="kpi kpi--blue">
+              <div class="kpi-left">
+                <div class="kpi-title">Official Leaves</div>
+                <div class="kpi-sub">Approved</div>
+              </div>
+              <div class="kpi-val" id="kpiOfficial">0</div>
+            </div>
+
+            <div class="kpi kpi--amber">
+              <div class="kpi-left">
+                <div class="kpi-title">Unofficial Absences</div>
+                <div class="kpi-sub">Unplanned</div>
+              </div>
+              <div class="kpi-val" id="kpiUnofficial">0</div>
+            </div>
+
+            <div class="kpi kpi--lite">
+              <div class="kpi-left">
+                <div class="kpi-title">Average hours/day</div>
+                <div class="kpi-sub">Worked ÷ Days worked</div>
+              </div>
+              <div class="kpi-val" id="kpiAvgHrs">0.0h</div>
+            </div>
+
+            <div class="kpi kpi--lite">
+              <div class="kpi-left">
+                <div class="kpi-title">Punctuality score</div>
+                <div class="kpi-sub">Present vs Unofficial</div>
+              </div>
+              <div class="kpi-val" id="kpiPunct">0%</div>
+            </div>
+
+            <div class="kpi kpi--lite">
+              <div class="kpi-left">
+                <div class="kpi-title">Total hours</div>
+                <div class="kpi-sub">This month</div>
+              </div>
+              <div class="kpi-val" id="kpiTotHrs">0h</div>
+            </div>
+
+            <div class="sum-foot" id="sumFoot">out of 0 working days</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Detailed Records + Quick Actions -->
+    <section class="grid data-grid">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="section-title">Detailed Records</div>
+            <div class="section-sub">Chronological attendance history with detailed information</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <div class="fg">
+            <label>Worker</label>
+            <input id="workerName" type="text" placeholder="Employee name" value="Parmeshwar" />
+          </div>
+
+          <div class="fg">
+            <label>Date Range</label>
+            <div class="row">
+              <input type="date" id="fromDate" />
+              <span class="to">to</span>
+              <input type="date" id="toDate" />
+            </div>
+          </div>
+
+          <div class="fg">
+            <label>Status</label>
+            <select id="statusSel">
+              <option value="all">All Status</option>
+              <option value="present">Present</option>
+              <option value="official">Official Leave</option>
+              <option value="unofficial">Absent (Unofficial)</option>
+            </select>
+          </div>
+
+          <div class="fg fg--search">
+            <label>Search by date, notes, or client</label>
+            <input id="searchText" type="text" placeholder="e.g., early arrival, Client A…" />
+          </div>
+
+          <div class="fg fg--btn">
+            <label>&nbsp;</label>
+            <button class="btn" id="applyBtn">Apply</button>
+          </div>
+        </div>
+
+        <!-- Range mini KPIs -->
+        <div class="range-kpis" id="rangeKpis" aria-live="polite">
+          <div class="rk rk--green">
+            <div class="rk-title">Days Worked</div>
+            <div class="rk-val" id="rkWorked">0</div>
+          </div>
+          <div class="rk rk--blue">
+            <div class="rk-title">Official Leaves</div>
+            <div class="rk-val" id="rkOfficial">0</div>
+          </div>
+          <div class="rk rk--amber">
+            <div class="rk-title">Unofficial Absences</div>
+            <div class="rk-val" id="rkUnofficial">0</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="deskTable" aria-describedby="records">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total Hours</th>
+                <th>Shift</th>
+                <th>Status</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+
+          <!-- Mobile summary list -->
+          <div id="mobileList" class="mobile-list"></div>
+
+          <div class="empty" id="emptyState" hidden>
+            🔍 No results found. Adjust filters or search again.
+          </div>
+        </div>
+      </div>
+
+      <!-- right: quick actions -->
+      <aside class="card qa">
+        <div class="card-head"><strong>Quick Actions</strong></div>
+        <div class="card-body">
+          <div class="action action--blue">
+            <div>
+              <div class="act-title">Export PDF</div>
+              <div class="act-sub">Create a printable report</div>
+            </div>
+            <button id="exportPdf" class="cta-btn cta-primary" title="Download PDF">
+              <span class="cta-ico">⬇</span><span>Download PDF</span>
+            </button>
+          </div>
+          <div class="action action--green">
+            <div>
+              <div class="act-title">Export CSV</div>
+              <div class="act-sub">Spreadsheet friendly data</div>
+            </div>
+            <button id="exportCsv" class="cta-btn cta-success" title="Download CSV">
+              <span class="cta-ico">⬇</span><span>Download CSV</span>
+            </button>
+          </div>
+
+          <hr class="sep" />
+
+          <div class="action">
+            <div>
+              <div class="act-title">Request Leave</div>
+              <div class="act-sub">Submit a new leave</div>
+            </div>
+            <button class="cta-btn cta-outline js-soon"><span>Open</span> ➜</button>
+          </div>
+          <div class="action">
+            <div>
+              <div class="act-title">Report Issue</div>
+              <div class="act-sub">Let us know a problem</div>
+            </div>
+            <button class="cta-btn cta-outline js-soon"><span>Open</span> ➜</button>
+          </div>
+
+          <p class="muted small">Exports are generated from the filtered results.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Day Detail Modal -->
+  <div id="dayModal" class="day-modal-overlay" aria-hidden="true">
+    <div class="day-modal" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
+      <button class="day-modal-close" id="dayModalClose" aria-label="Close">✕</button>
+      <h3 id="dayModalTitle">Day Details</h3>
+      <div class="day-modal-grid">
+        <div class="row"><span>Date</span><strong id="mDate">—</strong></div>
+        <div class="row"><span>Status</span><strong id="mStatus">—</strong></div>
+        <div class="row"><span>Check In</span><strong id="mIn">—</strong></div>
+        <div class="row"><span>Check Out</span><strong id="mOut">—</strong></div>
+        <div class="row"><span>Total Hours</span><strong id="mHours">—</strong></div>
+        <div class="row"><span>Shift</span><strong id="mShift">—</strong></div>
+        <div class="row row-notes"><span>Notes</span><p id="mNotes">—</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer injected by ascript.js -->
+  <div id="site-footer"></div>
+
+  <div id="toast" class="toast">Coming soon</div>
+
+  <script src="ascript.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+:root{
+  --nav-h:72px;
+  --card:#fff; --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
+  --brand:#1e40af; --brand-50:#eef2ff; --ok:#16a34a; --warn:#f59e0b;
+  --shadow:0 8px 22px rgba(15,23,42,.06);
+  --radius:14px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#f5f7fb; color:var(--ink);
+  padding-bottom:calc(var(--nav-h) + 28px);
+}
+
+/* Page */
+.page{max-width:1100px;margin:0 auto;padding:20px}
+.page-head .title{margin:0}
+.page-head .sub{margin:6px 0 12px;color:var(--muted)}
+
+/* Header (Home-style, injected) */
+.main-header{
+  position:sticky; top:0; z-index:30; background:#fff; border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; padding:12px 18px;
+  box-shadow:0 4px 12px rgba(0,0,0,.03);
+}
+.brand{display:flex; gap:10px; align-items:center; text-decoration:none; color:inherit}
+.logo{width:36px;height:36px;object-fit:contain}
+.company-info{display:flex;flex-direction:column;line-height:1}
+.company-name{font-weight:800}
+.portal-name{font-size:.85rem;color:var(--muted)}
+.h-icons{display:flex;align-items:center;gap:14px}
+.icon-btn{
+  position:relative; display:grid; place-items:center;
+  width:38px; height:38px; border-radius:12px;
+  background:#f1f5fe; border:1px solid #dbe8ff; cursor:pointer;
+}
+.icon-btn svg{width:20px;height:20px;fill:#1d4ed8}
+.icon-badge{
+  position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:.7rem;
+  padding:1px 6px;border-radius:999px;font-weight:800;border:2px solid #fff;
+}
+.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.user-dropdown{position:relative}
+.dropdown-btn{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:6px 10px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px;color:#0f172a;
+}
+.dropdown{
+  display:none;position:absolute;right:0;top:110%;min-width:160px;background:#fff;border:1px solid var(--border);
+  border-radius:10px;box-shadow:var(--shadow);overflow:hidden;
+}
+.dropdown a{display:block;padding:10px 14px;text-decoration:none;color:var(--ink)}
+.dropdown a:hover{background:#f8fafc}
+
+/* Footer (Home-style, injected) */
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;height:var(--nav-h);background:#fff;border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;align-items:center;box-shadow:0 -6px 18px rgba(16,24,40,.05); z-index:29;
+}
+.nav-link{flex:1;text-decoration:none;color:#6b7280;display:grid;place-items:center;gap:4px;font-size:.86rem}
+.nav-link svg{width:22px;height:22px;fill:currentColor}
+.nav-link.active{color:#4a6cfd;font-weight:700}
+
+/* Card & form */
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:16px;
+}
+.form{display:grid;gap:14px}
+.form-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:860px){ .form-row{grid-template-columns:1fr} }
+
+.fg{display:flex;flex-direction:column;gap:6px}
+.fg label{font-weight:600}
+.req{color:#ef4444;margin-left:4px}
+.hint{color:var(--muted);font-weight:500}
+.fg input,.fg select,.fg textarea{
+  padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff
+}
+.fg--fieldset{border:1px dashed var(--border);border-radius:12px;padding:10px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);padding:8px 10px;border-radius:999px;background:#fff;cursor:pointer}
+.err{color:#b91c1c;font-size:.85rem;min-height:1em}
+
+/* Buttons */
+.actions{display:flex;gap:10px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
+.btn--primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn--ghost{background:#fff}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;top:18px;transform:translateX(-50%);background:#111827;color:#fff;
+  padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.2s;z-index:40
+}
+.toast.show{opacity:1}

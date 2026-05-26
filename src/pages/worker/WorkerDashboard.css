@@ -1,0 +1,480 @@
+/* ── Page ─────────────────────────────────────────────────── */
+.wd-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 20px;
+}
+
+/* ── Profile Card ─────────────────────────────────────────── */
+.wd-profile-card {
+  background: #FFFFFF;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(11, 18, 32, 0.07);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.wd-profile-avatar-wrap {
+  flex-shrink: 0;
+}
+
+.wd-profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #E2E8F0;
+}
+
+.wd-profile-avatar-fallback {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563EB, #10B981);
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wd-profile-info {
+  flex: 1;
+}
+
+.wd-profile-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0B1220;
+  margin: 0 0 6px 0;
+}
+
+.wd-profile-id,
+.wd-profile-designation {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 4px 0;
+}
+
+.wd-profile-id strong,
+.wd-profile-designation strong {
+  color: #0B1220;
+}
+
+.wd-profile-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.wd-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wd-status-pill.active {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.wd-status-pill.inactive {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.wd-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.wd-status-pill.active .wd-status-dot { background: #10B981; }
+.wd-status-pill.inactive .wd-status-dot { background: #EF4444; }
+
+.wd-profile-joined {
+  font-size: 13px;
+  color: #64748B;
+}
+
+/* ── Section ──────────────────────────────────────────────── */
+.wd-section {
+  background: #FFFFFF;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(11, 18, 32, 0.07);
+  padding: 24px;
+}
+
+.wd-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.wd-section-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B1220;
+  margin: 0 0 4px 0;
+}
+
+.wd-section-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 20px 0;
+}
+
+/* ── Filter ───────────────────────────────────────────────── */
+.wd-filter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wd-filter-label {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.wd-filter-select {
+  background: #F4F7FB;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #0B1220;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.wd-filter-select:focus {
+  border-color: #2563EB;
+}
+
+/* ── Stats Grid ───────────────────────────────────────────── */
+.wd-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── Stat Card ────────────────────────────────────────────── */
+.wd-stat-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wd-stat-accent {
+  height: 4px;
+}
+
+.wd-stat-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wd-stat-icon {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.wd-stat-value {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.wd-stat-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0B1220;
+}
+
+.wd-stat-sublabel {
+  font-size: 12px;
+  color: #64748B;
+}
+
+/* ── Action Cards Grid ────────────────────────────────────── */
+.wd-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* ── Action Card ──────────────────────────────────────────── */
+.wd-action-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(11, 18, 32, 0.07);
+  padding: 20px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wd-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(11, 18, 32, 0.12);
+}
+
+.wd-action-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wd-action-icon-wrap {
+  width: 44px;
+  height: 44px;
+  background: #EFF6FF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wd-action-right {
+  display: flex;
+  align-items: center;
+}
+
+.wd-action-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0B1220;
+}
+
+.wd-action-subtitle {
+  font-size: 12px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.wd-action-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.wd-action-info-label {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.wd-action-info-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563EB;
+}
+
+/* ── Query Grid ───────────────────────────────────────────── */
+.wd-query-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+/* ── Query Card ───────────────────────────────────────────── */
+.wd-query-card {
+  border-radius: 18px;
+  padding: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wd-query-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(11, 18, 32, 0.1);
+}
+
+.wd-query-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.wd-query-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0B1220;
+  margin-bottom: 5px;
+}
+
+.wd-query-subtitle {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+/* ── Help Card ────────────────────────────────────────────── */
+.wd-help-card {
+  background: #EEF7FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 22px;
+  padding: 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.wd-help-icon {
+  width: 56px;
+  height: 56px;
+  background: #DBEAFE;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wd-help-content {
+  flex: 1;
+}
+
+.wd-help-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B1220;
+  margin: 0 0 4px 0;
+}
+
+.wd-help-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 16px 0;
+}
+
+.wd-help-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.wd-help-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #0B1220;
+  font-weight: 500;
+  padding: 8px 14px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #BFDBFE;
+  transition: all 0.2s ease;
+}
+
+.wd-help-contact-item:hover {
+  background: #2563EB;
+  color: white;
+  border-color: #2563EB;
+}
+
+.wd-help-contact-item.whatsapp:hover {
+  background: #10B981;
+  border-color: #10B981;
+}
+
+.wd-help-contact-icon {
+  font-size: 16px;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .wd-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wd-query-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .wd-profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 20px;
+  }
+
+  .wd-profile-meta {
+    justify-content: center;
+  }
+
+  .wd-profile-name {
+    font-size: 20px;
+  }
+
+  .wd-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wd-action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wd-query-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wd-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wd-help-card {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .wd-help-contacts {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .wd-help-contact-item {
+    width: 100%;
+  }
+}

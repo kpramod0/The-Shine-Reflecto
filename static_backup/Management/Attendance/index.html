@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Management • Attendance (By Worker / Client)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header injected by script.js -->
+  <div id="site-header"></div>
+
+  <main class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a class="bc-link" href="../../index.html">Home</a>
+      <span class="bc-sep">›</span>
+      <a class="bc-link" href="../index.html">Management</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Attendance</span>
+    </nav>
+
+    <header class="page-head">
+      <div>
+        <h1 class="h1">Attendance — Filter by Worker / Client</h1>
+        <p class="sub">Choose a filter mode, set criteria, and view summaries and records.</p>
+      </div>
+    </header>
+
+    <!-- Filters -->
+    <section class="card">
+      <div class="card-head"><strong>Filters</strong></div>
+      <div class="card-body filters">
+
+        <!-- Mode -->
+        <div class="fg">
+          <label class="lbl">Filter mode</label>
+          <div class="seg">
+            <label class="seg-item">
+              <input type="radio" name="mode" id="modeWorker" value="worker" checked />
+              <span>By Worker</span>
+            </label>
+            <label class="seg-item">
+              <input type="radio" name="mode" id="modeClient" value="client" />
+              <span>By Client</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Worker-Mode fields -->
+        <div class="fg fg-grow wm-only">
+          <label class="lbl">Worker</label>
+          <div class="row">
+            <select id="wmWorkerSel" class="inp"></select>
+          </div>
+        </div>
+
+        <div class="fg wm-only">
+          <label class="lbl">Client</label>
+          <select id="wmClientSel" class="inp"></select>
+        </div>
+
+        <div class="fg wm-only">
+          <label class="lbl">Want to see</label>
+          <select id="wmViewSel" class="inp">
+            <option value="details" selected>Complete details</option>
+            <option value="days">Only no. of working days</option>
+          </select>
+        </div>
+
+        <!-- Client-Mode fields -->
+        <div class="fg fg-grow cm-only" hidden>
+          <label class="lbl">Client</label>
+          <input id="cmClientInp" class="inp" list="cmClientList" placeholder="Type client name…" />
+          <datalist id="cmClientList"></datalist>
+        </div>
+
+        <div class="fg cm-only" hidden>
+          <label class="lbl">Worker</label>
+          <input id="cmWorkerInp" class="inp" list="cmWorkerList" placeholder="All Workers (leave empty)" />
+          <datalist id="cmWorkerList"></datalist>
+        </div>
+
+        <!-- Common: Date range, Shift, Status, Search -->
+        <div class="fg">
+          <label class="lbl">Date range</label>
+          <div class="row">
+            <input type="date" id="fromDate" class="inp" />
+            <span class="to">to</span>
+            <input type="date" id="toDate" class="inp" />
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Shift</label>
+          <select id="shiftSel" class="inp">
+            <option value="all">All</option>
+            <option value="Day">Day</option>
+            <option value="Night">Night</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Status</label>
+          <select id="statusSel" class="inp">
+            <option value="all">All</option>
+            <option value="present">Present</option>
+            <option value="official">Official Leave</option>
+            <option value="unofficial">Unofficial</option>
+          </select>
+        </div>
+
+        <div class="fg fg-grow">
+          <label class="lbl">Search by date/notes/client</label>
+          <input type="text" id="searchText" class="inp" placeholder="e.g., 2025-02, urgent, Client A" />
+        </div>
+
+        <div class="fg">
+          <label class="lbl">&nbsp;</label>
+          <div class="row">
+            <button class="btn" id="applyBtn">Apply</button>
+            <button class="btn btn-ghost" id="clearBtn">Clear</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary tiles -->
+    <section class="card">
+      <div class="card-head">
+        <strong>Summary</strong>
+      </div>
+      <div class="card-body">
+        <div class="kpi-row" id="kpiRow"></div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-titles">
+          <div class="section-title" id="resultTitle">Showing: —</div>
+          <div class="section-sub" id="resultSub">Use filters and click Apply.</div>
+        </div>
+        <div class="actions">
+          <button id="exportCsv" class="btn btn-ghost">Export CSV</button>
+          <button id="exportPdf" class="btn btn-ghost">Export PDF</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <!-- Desktop/tablet table -->
+        <table class="table" id="resultTable">
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+
+        <!-- Mobile list / accordion -->
+        <div id="mobileList" class="m-list"></div>
+
+        <div id="emptyState" class="empty">No records found. Adjust filters and try again.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer injected by script.js -->
+  <div id="site-footer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

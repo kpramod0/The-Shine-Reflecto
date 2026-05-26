@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES – TSR Design System
+   ============================================================ */
+:root {
+  --olive:         #9BA432;
+  --olive-dark:    #879020;
+  --olive-light:   #F3F5E6;
+  --olive-mid:     #c8d04a;
+  --teal:          #3FA7A5;
+
+  --text-heading:  #0B0E17;
+  --text-body:     #374151;
+  --text-muted:    #6B7280;
+  --text-white:    #FFFFFF;
+
+  --bg-white:      #FFFFFF;
+  --bg-soft:       #F7F8FA;
+  --bg-light:      #F5F6F7;
+
+  --border:        #E5E7EB;
+  --border-mid:    #D1D5DB;
+
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:     0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:     0 10px 40px rgba(0,0,0,0.10);
+  --shadow-olive:  0 8px 24px rgba(155,164,50,0.25);
+
+  --radius-sm:     8px;
+  --radius-md:     12px;
+  --radius-lg:     18px;
+  --radius-xl:     24px;
+  --radius-2xl:    32px;
+  --radius-full:   9999px;
+
+  --transition:    all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-body);
+  background: var(--bg-white);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select, textarea {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 1rem; }
+}
+
+.section-pad { padding: 48px 0 96px; }
+@media (max-width: 768px) { .section-pad { padding: 40px 0 64px; } }
+
+/* Typography helpers */
+.label-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 16px;
+}
+
+.section-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 800;
+  color: var(--text-heading);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.section-subtext {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+.olive-text { color: var(--olive); }
+.teal-text  { color: var(--teal);  }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-lg);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--olive);
+  color: var(--text-heading);
+  box-shadow: var(--shadow-olive);
+}
+.btn-primary:hover {
+  background: var(--olive-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(155,164,50,0.35);
+}
+
+.btn-outline {
+  background: var(--bg-white);
+  color: var(--olive);
+  border-color: var(--olive);
+}
+.btn-outline:hover {
+  background: var(--olive-light);
+  transform: translateY(-2px);
+}
+
+.btn-dark {
+  background: var(--text-heading);
+  color: var(--bg-white);
+}
+.btn-dark:hover {
+  background: #1e2535;
+  transform: translateY(-2px);
+}
+
+/* Card base */
+.card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* Grid helpers */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grid-2  { grid-template-columns: 1fr; }
+  .grid-3  { grid-template-columns: 1fr; }
+  .grid-4  { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .grid-4  { grid-template-columns: 1fr; }
+}
+
+/* Olive icon circle */
+.icon-circle {
+  width: 52px;
+  height: 52px;
+  background: var(--olive-light);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--olive);
+  flex-shrink: 0;
+}
+
+/* Scroll reveal */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

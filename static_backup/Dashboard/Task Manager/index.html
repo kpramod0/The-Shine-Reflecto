@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task Manage • TSR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-left">
+      <a class="brand" href="../../index.html">
+        <img src="../../logo.png" alt="Company Logo" class="logo" />
+        <div class="company-info">
+          <span class="company-name">TSR</span>
+          <span class="portal-name">Supervisor Portal</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="header-right">
+      <button class="notification" aria-label="Open notifications">
+        <span aria-hidden="true">🔔</span><span class="badge">1</span>
+      </button>
+      <img src="https://assets.codepen.io/85188/profile-pic.jpg" alt="Profile" class="profile-pic" />
+      <div class="user-dropdown">
+        <button class="dropdown-btn" aria-haspopup="true" aria-expanded="false">
+          John Smith <span aria-hidden="true">▼</span>
+        </button>
+        <div class="dropdown-content" role="menu">
+          <a href="#" role="menuitem">Profile</a>
+          <a href="#" role="menuitem">Settings</a>
+          <a href="#" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="tm-container">
+    <header class="tm-header">
+      <h1>Task Manage</h1>
+      <p class="tm-sub">Quick access to task history, round/request and materials</p>
+    </header>
+
+    <section class="tm-grid">
+      <article class="tm-card" id="card-history" tabindex="0" role="button" aria-label="Open Task History">
+        <div class="tm-card__icon tm-card__icon--shield" aria-hidden="true">🛡️</div>
+        <div class="tm-card__body">
+          <h2 class="tm-card__title">Task History</h2>
+        </div>
+        <div class="tm-card__chev" aria-hidden="true">›</div>
+      </article>
+
+      <article class="tm-card" id="card-round" tabindex="0" role="button" aria-label="Open Round & Request">
+        <div class="tm-card__icon tm-card__icon--note" aria-hidden="true">📝</div>
+        <div class="tm-card__body">
+          <h2 class="tm-card__title">Round &amp; Request</h2>
+        </div>
+        <div class="tm-card__chev" aria-hidden="true">›</div>
+      </article>
+
+      <article class="tm-card" id="card-materials" tabindex="0" role="button" aria-label="Open Materials & Equipments">
+        <div class="tm-card__icon tm-card__icon--gear" aria-hidden="true">⚙️</div>
+        <div class="tm-card__body">
+          <h2 class="tm-card__title">Materials &amp; Equipments</h2>
+        </div>
+        <div class="tm-card__chev" aria-hidden="true">›</div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <nav class="bottom-nav" aria-label="Primary">
+      <a href="../../index.html" class="nav-link" data-k="home">
+        <svg viewBox="0 0 256 256">
+          <path d="M213.38,109.62l-80-80a8,8,0,0,0-10.76,0l-80,80a8,8,0,0,0-1.7,11.87A8,8,0,0,0,48,124H64v80a16,16,0,0,0,16,16h80a16,16,0,0,0,16-16V124h16a8,8,0,0,0,6.68-12.51Z"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="../../Member/index.html" class="nav-link" data-k="member">
+        <svg viewBox="0 0 256 256">
+          <path d="M234.38,210a112.33,112.33,0,0,0-212.76,0a8,8,0,1,0,13.76,8a96.34,96.34,0,0,1,185.24,0a8,8,0,1,0,13.76-8Z"/>
+        </svg>
+        <span>Member</span>
+      </a>
+      <a href="../../Management/index.html" class="nav-link" data-k="management">
+        <svg viewBox="0 0 256 256">
+          <path d="M224,64H176V56a24,24,0,0,0-24-24H104A24,24,0,0,0,80,56v8H32A16,16,0,0,0,16,80V208a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16Z"/>
+        </svg>
+        <span>Management</span>
+      </a>
+      <a href="../index.html" class="nav-link active" data-k="dashboard">
+        <svg viewBox="0 0 256 256">
+          <path d="M240,200V48a16,16,0,0,0-16-16H32A16,16,0,0,0,16,48V200a16,16,0,0,0,16,16H224A16,16,0,0,0,240,200Z"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+    </nav>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

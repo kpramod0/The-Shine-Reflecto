@@ -1,0 +1,73 @@
+:root{
+  --bg:#f7f9fc; --card:#fff; --ink:#0f172a; --muted:#667085; --line:#e6e8f0;
+  --brand:#4a6cfd; --brand-600:#3b56c9; --danger:#ef4444; --shadow:0 10px 24px rgba(16,24,40,.06);
+  --radius:14px; --navH:68px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:system-ui,-apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding-bottom:calc(var(--navH) + 20px);
+}
+
+/* Header (injected) */
+.main-header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit}
+.brand .logo{width:36px;height:36px;object-fit:contain}
+.brand .col{display:flex;flex-direction:column;line-height:1}
+.brand .title{font-weight:800}
+.brand .sub{font-size:.85rem;color:var(--muted)}
+.h-icons{display:flex;gap:14px;align-items:center}
+.icon-btn{position:relative;border:0;background:none;cursor:pointer;font-size:20px}
+.icon-badge{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:.7rem;padding:1px 6px;border-radius:999px;font-weight:700}
+.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
+
+/* Footer (injected) */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;height:var(--navH);background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;align-items:center;box-shadow:0 -6px 18px rgba(16,24,40,.05)}
+.nav-link{flex:1;text-decoration:none;color:#6b7280;display:grid;place-items:center;gap:4px;font-size:.86rem}
+.nav-link svg{width:22px;height:22px;fill:currentColor}
+.nav-link.active{color:var(--brand);font-weight:700}
+
+/* Layout */
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+
+/* Filters */
+.filters{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px;margin-bottom:16px}
+.filters .row{display:grid;grid-template-columns:repeat(6, minmax(0,1fr));gap:12px}
+@media (max-width:1100px){ .filters .row{grid-template-columns:repeat(3, minmax(0,1fr))} }
+@media (max-width:640px){ .filters .row{grid-template-columns:1fr} }
+.lbl{font-weight:700;font-size:.92rem}
+.inp{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.select-wrap{position:relative}
+.select-wrap .chev{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#667085}
+.fg-actions .btns{display:flex;gap:10px}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-weight:800}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-600);border-color:var(--brand-600)}
+.btn.danger{background:#fff;color:#0f172a;border-color:#f3d2d2}
+.btn.danger:hover{background:#fff1f1;border-color:#f3bcbc}
+.fg-date input{min-width:210px}
+
+/* Card + Table */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}
+.card-head h2{margin:0}
+.stats{color:var(--muted);font-size:.92rem}
+.table-wrap{padding:12px 14px}
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid #eef2f7;text-align:left;vertical-align:top}
+.table th{color:#667085;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+.empty{color:#667085;text-align:center;padding:18px}
+
+/* Little UI bits */
+.bullet{color:#2563eb}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:999px;font-weight:700;font-size:.78rem;background:#eef4ff;color:#1b43b8;border:1px solid #cfe0ff}
+.action-link{color:#2563eb;text-decoration:none;font-weight:700}
+.action-link:hover{text-decoration:underline}
+
+/* Responsive cell wrapping */
+.table td.wrap-col{white-space:normal;word-break:break-word}

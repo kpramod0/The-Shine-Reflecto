@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roasters • TSR Supervisor Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header injected by script.js -->
+  <div id="site-header"></div>
+
+  <main class="wrap">
+    <!-- Filters -->
+    <section class="filters">
+      <div class="row">
+        <div class="fg fg-date">
+          <label class="lbl">Select Date</label>
+          <input id="fDate" class="inp" type="date" />
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Select Supervisor</label>
+          <div class="select-wrap">
+            <select id="fSupervisor" class="inp">
+              <option value="__all__">All</option>
+            </select>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Select Client</label>
+          <div class="select-wrap">
+            <select id="fClient" class="inp">
+              <option value="__all__">All</option>
+            </select>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Select Worker</label>
+          <div class="select-wrap">
+            <select id="fWorker" class="inp">
+              <option value="__all__">All</option>
+            </select>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">Select Shift</label>
+          <div class="select-wrap">
+            <select id="fShift" class="inp">
+              <option value="__all__">All</option>
+              <option value="Day">Day Shift</option>
+              <option value="Night">Night Shift</option>
+            </select>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+
+        <div class="fg fg-actions">
+          <label class="lbl">&nbsp;</label>
+          <div class="btns">
+            <button id="clearFilters" class="btn danger">Clear All Filters</button>
+            <a id="addRoasterBtn" class="btn primary">Add Roaster</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- List -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Rosters List</h2>
+        <div class="stats" id="stats"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Created</th>
+              <th>Created By</th>
+              <th>Name</th>
+              <th>Clients</th>
+              <th>Supervisor</th>
+              <th>Workers</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div id="empty" class="empty">No rosters found for the selected filters.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer injected by script.js -->
+  <div id="site-footer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

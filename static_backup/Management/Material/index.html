@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Management • Material Requests</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <div id="site-header"></div>
+
+  <main class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a class="bc-link" href="../../index.html">Home</a>
+      <span class="bc-sep">›</span>
+      <a class="bc-link" href="../index.html">Management</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Material</span>
+    </nav>
+
+    <header class="page-head">
+      <div>
+        <h1 class="h1">Material Requests</h1>
+        <p class="sub">Review, approve, or reject requests submitted by staff.</p>
+      </div>
+      <a class="btn btn-ghost" href="../../Dashboard/material/index.html">Go to Request Page →</a>
+    </header>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="row">
+          <select id="statusFilter" class="inp">
+            <option value="all" selected>All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <input id="searchText" class="inp" placeholder="Search items/note…" />
+        </div>
+        <button id="clearAll" class="btn-danger">Clear All (local)</button>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Requested On</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th>Manager Note</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div id="emptyState" class="empty">No requests found.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="site-footer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

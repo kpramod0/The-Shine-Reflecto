@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard • Material Request</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header injected by script.js -->
+  <div id="site-header"></div>
+
+  <main class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a class="bc-link" href="../../index.html">Home</a>
+      <span class="bc-sep">›</span>
+      <a class="bc-link" href="../index.html">Dashboard</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Materials</span>
+    </nav>
+
+    <header class="page-head">
+      <div>
+        <h1 class="h1">Request Materials</h1>
+        <p class="sub">Fill the sections needed and submit. You can also view previously requested materials.</p>
+      </div>
+      <a class="btn btn-ghost" href="../../Management/Material/index.html" title="Open supervisor view">Open Management View →</a>
+    </header>
+
+    <!-- Tabs -->
+    <section class="tabs">
+      <button class="tab active" data-tab="formTab">Add Request</button>
+      <button class="tab" data-tab="listTab">See Requested Materials</button>
+    </section>
+
+    <!-- FORM CARD -->
+    <section id="formTab" class="card">
+      <div class="card-head"><strong>New Material Request</strong></div>
+      <div class="card-body">
+        <!-- Machines -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkMachines" />
+            <span>Machines</span>
+          </label>
+          <div id="machinesWrap" class="section-body" hidden>
+            <div class="row">
+              <div class="fg">
+                <label class="lbl">Description</label>
+                <input type="text" id="machDesc" class="inp" placeholder="e.g., Single Disc Machine" />
+              </div>
+              <div class="fg">
+                <label class="lbl">No.</label>
+                <input type="number" id="machCount" class="inp" min="1" placeholder="1" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pads -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkPad" />
+            <span>Pad</span>
+          </label>
+          <div id="padWrap" class="section-body" hidden>
+            <div id="padRows"></div>
+            <div class="row">
+              <button id="addPadRow" class="btn btn-ghost">+ Add Pad</button>
+              <small class="muted">Each pad type can be selected only once.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chemical -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkChemical" />
+            <span>Chemical</span>
+          </label>
+          <div id="chemWrap" class="section-body" hidden>
+            <div id="chemRows"></div>
+            <button id="addChemRow" class="btn btn-ghost">+ Add Chemical</button>
+          </div>
+        </div>
+
+        <!-- Powder -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkPowder" />
+            <span>Powder</span>
+          </label>
+          <div id="powderWrap" class="section-body" hidden>
+            <div class="fg fg-sm">
+              <label class="lbl">Quantity (kg)</label>
+              <input type="number" id="powderKg" class="inp" min="0" step="0.1" placeholder="e.g., 5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Shampoo -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkShampoo" />
+            <span>Shampoo</span>
+          </label>
+          <div id="shampooWrap" class="section-body" hidden>
+            <div class="fg fg-sm">
+              <label class="lbl">Which one</label>
+              <input type="text" id="shampooCode" class="inp" list="shampooList" placeholder="e.g., 101, 103…" />
+              <datalist id="shampooList">
+                <option value="101"></option>
+                <option value="103"></option>
+                <option value="105"></option>
+                <option value="107"></option>
+              </datalist>
+            </div>
+          </div>
+        </div>
+
+        <!-- Others -->
+        <div class="section">
+          <label class="check">
+            <input type="checkbox" id="chkOthers" />
+            <span>Others</span>
+          </label>
+          <div id="othersWrap" class="section-body" hidden>
+            <div id="otherRows"></div>
+            <button id="addOtherRow" class="btn btn-ghost">+ Add Other Item</button>
+          </div>
+        </div>
+
+        <div class="actions end">
+          <button id="submitReq" class="btn">Submit Request</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIST CARD -->
+    <section id="listTab" class="card" hidden>
+      <div class="card-head">
+        <strong>Requested Materials</strong>
+        <div class="row">
+          <select id="statusFilter" class="inp">
+            <option value="all" selected>All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <input id="searchText" class="inp" placeholder="Search notes/items…" />
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Requested On</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th>Manager Note</th>
+            </tr>
+          </thead>
+          <tbody id="reqTbody"></tbody>
+        </table>
+        <div id="emptyList" class="empty">No requests yet.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer injected by script.js -->
+  <div id="site-footer"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

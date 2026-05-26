@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Request & Response • TSR</title>
+  <link rel="stylesheet" href="resp.css"/>
+</head>
+<body>
+  <!-- Header (injected by resp.js) -->
+  <div id="site-header"></div>
+
+  <main class="page">
+    <header class="page-head">
+      <h1 class="title">Request & Response</h1>
+      <p class="sub">Track your requests and rate the resolution quality</p>
+    </header>
+
+    <section class="card">
+      <div class="toolbar">
+        <input id="q" type="text" placeholder="Search by reason, name, description..."/>
+        <select id="statusFilter">
+          <option value="all">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <button id="clearFilter" class="btn">Clear</button>
+      </div>
+
+      <div id="list" class="list"></div>
+      <div id="empty" class="empty" hidden>😶 No requests found</div>
+    </section>
+  </main>
+
+  <!-- Footer (injected by resp.js) -->
+  <div id="site-footer"></div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Script -->
+  <script src="resp.js" defer></script>
+</body>
+</html>

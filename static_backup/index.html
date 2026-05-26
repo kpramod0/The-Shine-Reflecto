@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shine Reflecto | Premium Marble Polishing</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+    <div class="landing-container">
+        <!-- 1. PREMIUM NAVBAR -->
+        <nav class="landing-navbar" id="navbar">
+            <div class="nav-container container">
+                <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="brand-logo">TSR</div>
+                    <div class="brand-name">
+                        <span>The Shine</span>
+                        <span>Reflecto</span>
+                    </div>
+                </div>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="#home">Home</a>
+                    <div class="nav-dropdown">
+                        <a href="#services" class="dropdown-trigger">
+                            Services <span class="chevron">▼</span>
+                        </a>
+                        <div class="mega-menu">
+                            <div class="mega-grid">
+                                <div class="mega-image-col">
+                                    <img src="assets/images/luxury_residential_marble_interior_1777125177401.png" alt="Luxury Interior">
+                                    <div class="mega-overlay">
+                                        <h4>Expert Restoration</h4>
+                                        <p>We bring back the mirror-shine to every surface.</p>
+                                    </div>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>Materials</h4>
+                                    <ul>
+                                        <li>💎 Marble & Limestone</li>
+                                        <li>🥞 Travertine</li>
+                                        <li>🔨 Granite</li>
+                                        <li>🏁 Terrazzo</li>
+                                        <li>💧 Concrete</li>
+                                    </ul>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>Marble Services</h4>
+                                    <ul>
+                                        <li>➡️ Deep Cleaning</li>
+                                        <li>➡️ Grinding & Honing</li>
+                                        <li>➡️ Mirror Polishing</li>
+                                        <li>➡️ Crystallization</li>
+                                        <li>➡️ Nanotechnology Sealing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#about">About</a>
+                    <a href="#gallery">Showcase</a>
+                    <a href="#contact">Contact</a>
+                    
+                    <a href="login.html" class="nav-btn-login">Staff Login</a>
+                    <button class="nav-btn-cta">Book Inspection</button>
+                </div>
+
+                <button class="mobile-toggle" id="mobileToggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- 2. HERO SECTION -->
+        <section class="hero-section" id="home">
+            <div class="hero-bg" style="background-image: url('assets/images/hero_marble_floor_1777108642365.png')"></div>
+            <div class="hero-video-overlay"></div>
+            <div class="hero-content container">
+                <div class="hero-text">
+                    <h1 class="reveal">
+                        Restore <span class="text-shine">Mirror-Shine</span> <br>
+                        to Your Floors Across India
+                    </h1>
+                    <p class="reveal delay-1">
+                        Elevating surfaces with professional diamond polishing and nanotech sealing. 
+                        The <strong>Best Service in Pune</strong> for luxury residences and corporate offices.
+                    </p>
+                    <div class="hero-actions reveal delay-2">
+                        <button class="btn-primary">Get Free Inspection</button>
+                        <a href="login.html" class="btn-outline">Internal Portal</a>
+                    </div>
+                    <div class="trust-bar reveal delay-3">
+                        <div class="trust-item">🛡️ <span>100% Insured</span></div>
+                        <span class="dot"></span>
+                        <div class="trust-item">⭐️ <span>5.0 Rating</span></div>
+                        <span class="dot"></span>
+                        <div class="trust-item">🕒 <span>24hr Turnaround</span></div>
+                    </div>
+                </div>
+
+                <!-- 3. BEFORE/AFTER SLIDER -->
+                <div class="hero-slider-container reveal delay-2">
+                    <div class="slider-wrapper" id="sliderWrapper">
+                        <div class="slider-image after" style="background-image: url('assets/images/polished_marble_after_v2_1777108700895.png')">
+                            <span class="label after">AFTER</span>
+                        </div>
+                        <div class="slider-image before" id="beforeImage" style="background-image: url('assets/images/dull_marble_before_1777108669472.png')">
+                            <span class="label before">BEFORE</span>
+                        </div>
+                        <div class="slider-handle" id="sliderHandle">
+                            <div class="handle-circle">
+                                ↔️
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. BRAND LOGOS -->
+        <section class="brand-loop-section">
+            <div class="container">
+                <p class="loop-title">Trusted by Leading Architects & Developers</p>
+                <div class="brand-track">
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                    <div class="brand-logo-item"><img src="assets/images/media__1777121174608.png" alt="Client"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ABOUT SECTION -->
+        <section class="about-section" id="about">
+            <div class="container about-grid">
+                <div class="about-image">
+                    <img src="assets/images/marble_polishing_pro_1777108729080.png" alt="Pro Polisher" class="main-img">
+                    <div class="experience-badge">
+                        <span>15+</span>
+                        <p>Years of Excellence</p>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h6 class="text-gold">Our Legacy</h6>
+                    <h2>Crafting Perfection on Every Square Inch</h2>
+                    <p>At The Shine Reflecto, we don't just clean floors; we restore history and luxury. Our specialized diamond grinding process removes deep scratches and stains, bringing back the factory-fresh brilliance of your marble, granite, and natural stones.</p>
+                    <ul class="about-list">
+                        <li>✨ Diamond Grinding Technology</li>
+                        <li>✨ Dust-Free Polishing System</li>
+                        <li>✨ Eco-Friendly Chemical Sealing</li>
+                        <li>✨ Maintenance Roster Management</li>
+                    </ul>
+                    <button class="btn-outline">Learn Our Process</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SERVICES GRID -->
+        <section class="services-section" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <h6 class="text-gold">Our Expertise</h6>
+                    <h2>Restoration for Every Surface</h2>
+                    <p>Precision tools and artisanal care for high-end materials.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card glass-card">
+                        <div class="service-icon">💎</div>
+                        <h3>Italian Marble</h3>
+                        <p>Specialized honing for Botticino, Statuario, and Michael Angelo.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <div class="service-icon">🔨</div>
+                        <h3>Granite Leveling</h3>
+                        <p>Tough-surface grinding to remove lippage and restore sheen.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <div class="service-icon">💧</div>
+                        <h3>Terrazzo Care</h3>
+                        <p>Reviving the classic multi-color shine with advanced pads.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <div class="service-icon">🥞</div>
+                        <h3>Travertine</h3>
+                        <p>Filling and polishing travertine to a mirror finish.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <div class="service-icon">🛡️</div>
+                        <h3>Nanotech Sealing</h3>
+                        <p>Protecting your investment against oil and wine stains.</p>
+                    </div>
+                    <div class="service-card glass-card">
+                        <div class="service-icon">📊</div>
+                        <h3>Annual Maintenance</h3>
+                        <p>Keep the shine forever with our scheduled maintenance plans.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. SMART COST ESTIMATOR -->
+        <section class="estimator-section">
+            <div class="container estimator-grid">
+                <div class="estimator-content">
+                    <h2>Transparency in Pricing</h2>
+                    <p>Calculate your estimated restoration cost based on surface area.</p>
+                    <div class="estimator-box glass-card">
+                        <div class="input-field">
+                            <label>Area in Square Feet</label>
+                            <input type="number" id="sqftInput" value="1000">
+                        </div>
+                        <div class="result-display">
+                            <div class="price-range">
+                                <span class="price-label">Estimated Range</span>
+                                <span class="price-value" id="priceValue">₹35,000 - ₹85,000</span>
+                            </div>
+                            <p class="price-info">*Includes diamond grinding, polishing, and sealing.</p>
+                        </div>
+                        <button class="btn-primary full-width">Lock This Estimate</button>
+                    </div>
+                </div>
+                <div class="estimator-visual">
+                    <img src="assets/images/marble_polishing_machine_detail_v2_1777108762631.png" alt="Polishing Machine">
+                    <div class="stats-overlay">
+                        <div class="stat">
+                            <h4>5000+</h4>
+                            <p>Happy Clients</p>
+                        </div>
+                        <div class="stat">
+                            <h4>24/7</h4>
+                            <p>Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. SHOWCASE GALLERY -->
+        <section class="gallery-section" id="gallery">
+            <div class="container">
+                <div class="section-header">
+                    <h6 class="text-gold">Portfolio</h6>
+                    <h2>Prestigious Projects</h2>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item large">
+                        <img src="assets/images/luxury_residential_marble_interior_1777125177401.png" alt="Project 1">
+                        <div class="gallery-overlay"><h4>Luxury Penthouse, Pune</h4></div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/marble_polishing_pro_1777108729080.png" alt="Project 2">
+                        <div class="gallery-overlay"><h4>Corporate Plaza, Mumbai</h4></div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="assets/images/marble_polishing_machine_detail_v2_1777108762631.png" alt="Project 3">
+                        <div class="gallery-overlay"><h4>High-End Retail, Bangalore</h4></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. CONTACT SECTION -->
+        <section class="contact-section" id="contact">
+            <div class="container contact-grid">
+                <div class="contact-details">
+                    <h2>Let's Start Your Restoration Journey</h2>
+                    <p>Our experts are ready to visit your site for a free assessment.</p>
+                    <div class="contact-list">
+                        <div class="contact-info-item">
+                            📍 <span>Xion Mall, 309, Hinjawadi, Pune, Maharashtra 411057</span>
+                        </div>
+                        <div class="contact-info-item">
+                            📞 <a href="tel:+918830227359">+91 88302 27359</a>
+                        </div>
+                        <div class="contact-info-item">
+                            📱 <span>Available on WhatsApp</span>
+                        </div>
+                    </div>
+                    <a href="https://maps.app.goo.gl/UfDVTPA5poQqWBMd9" target="_blank" class="btn-outline map-link">
+                        View on Google Maps
+                    </a>
+                </div>
+                <div class="contact-form-box glass-card">
+                    <form>
+                        <h3>Request a Site Visit</h3>
+                        <div class="form-group">
+                            <input type="text" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Mobile Number" required>
+                        </div>
+                        <div class="form-group">
+                            <select>
+                                <option>Select Surface Type</option>
+                                <option>Italian Marble</option>
+                                <option>Granite</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary full-width">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. FOOTER -->
+        <footer class="landing-footer">
+            <div class="container footer-main">
+                <div class="footer-brand-col">
+                    <div class="brand">
+                        <div class="brand-logo">TSR</div>
+                        <div class="brand-name">
+                            <span>The Shine</span>
+                            <span>Reflecto</span>
+                        </div>
+                    </div>
+                    <p>Setting the gold standard in surface restoration since 2009. Pan-India presence with HQ in Pune.</p>
+                </div>
+                <div class="footer-link-col">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li>Marble Polishing</li>
+                        <li>Granite Honing</li>
+                        <li>Diamond Grinding</li>
+                        <li>Surface Sealing</li>
+                    </ul>
+                </div>
+                <div class="footer-link-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li>About Us</li>
+                        <li>Our Process</li>
+                        <li>Contact Us</li>
+                        <li><a href="login.html">Staff Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom container">
+                <p>&copy; 2026 The Shine Reflecto. Premium Restoration Services.</p>
+                <div class="footer-legal">
+                    <span>Privacy Policy</span>
+                    <span>Terms of Service</span>
+                </div>
+            </div>
+        </footer>
+
+        <!-- MOBILE STICKY CTAs -->
+        <div class="mobile-cta-sticky">
+            <a href="tel:+918830227359" class="cta-btn call">
+                📞 Call
+            </a>
+            <button class="cta-btn book">
+                Book Inspection
+            </button>
+        </div>
+    </div>
+
+    <script src="landing.js"></script>
+</body>
+</html>

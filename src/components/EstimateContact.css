@@ -1,0 +1,166 @@
+/* ── Form helpers ───────────────────────────────── */
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-field label { font-size: 13px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 1px; }
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 13px 16px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  color: #0B0E17;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus { border-color: #9BA432; }
+
+/* ── Estimate ───────────────────────────────────── */
+.estimate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.estimate-card {
+  background: #F7F8FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 28px;
+  padding: 44px 40px;
+}
+.estimate-card--dark { background: #0B0E17; border-color: #1e2535; }
+
+.estimate-card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0B0E17;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.estimate-card-icon { font-size: 26px; }
+.estimate-card-sub { font-size: 15px; color: #6B7280; margin-bottom: 28px; }
+
+.estimate-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.estimate-result-label { font-size: 13px; font-weight: 700; color: #6B7280; }
+.estimate-result-value { font-size: 20px; font-weight: 800; color: #9BA432; }
+.estimate-disclaimer { font-size: 12px; color: #9BA432; margin-bottom: 16px; }
+
+.upload-box {
+  border: 2px dashed #374151;
+  border-radius: 18px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #9BA432;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+.upload-box:hover { border-color: #9BA432; }
+.upload-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+.upload-box p { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.upload-formats { font-size: 13px !important; color: #6B7280 !important; }
+.upload-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* ── Contact ────────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.contact-heading { margin-bottom: 16px; }
+.contact-sub { font-size: 17px; color: #374151; line-height: 1.7; margin-bottom: 36px; }
+
+.contact-cards { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
+.contact-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.contact-info-icon { font-size: 28px; }
+.contact-info-label { font-size: 12px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 2px; }
+.contact-info-value { font-size: 17px; font-weight: 700; color: #9BA432; text-decoration: none; }
+.contact-info-value:hover { color: #879020; }
+
+.contact-trust { display: flex; flex-direction: column; gap: 10px; }
+.contact-trust-item { font-size: 15px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 10px; }
+.contact-trust-check {
+  width: 22px; height: 22px;
+  background: #9BA432;
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  flex-shrink: 0;
+}
+
+.contact-form-wrap {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 28px;
+  padding: 48px 40px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+}
+.contact-form-title { font-size: 24px; font-weight: 800; color: #0B0E17; margin-bottom: 6px; }
+.contact-form-sub   { font-size: 14px; color: #6B7280; margin-bottom: 28px; }
+
+/* ── Final CTA ──────────────────────────────────── */
+.final-cta {
+  background: #0B0E17;
+  padding: 96px 0;
+}
+
+.final-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.final-cta-heading { color: #fff; margin-bottom: 16px; }
+.final-cta-sub { font-size: 17px; color: #9BA432; margin-bottom: 24px; max-width: 520px; }
+.final-cta-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+.final-cta-google-icon { font-size: 22px; }
+.final-cta-btn { padding: 18px 40px; font-size: 17px; flex-shrink: 0; }
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 1024px) {
+  .estimate-grid { grid-template-columns: 1fr; }
+  .contact-grid  { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 768px) {
+  .estimate-card { padding: 32px 24px; }
+  .contact-form-wrap { padding: 32px 24px; }
+  .final-cta-inner { flex-direction: column; text-align: center; }
+  .final-cta-sub { margin: 0 auto 24px; }
+  .final-cta-google { justify-content: center; }
+}
