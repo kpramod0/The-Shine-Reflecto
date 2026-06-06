@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { downloadAttendancePdf, loadAttendanceSnapshot } from '../../services/operationsApi';
 import './AttendanceRecords.css';
 
 /* ── Mock Data ─────────────────────────────────────────────────── */
@@ -60,6 +61,8 @@ const YEARS = [2024, 2025, 2026];
 /* ── Main Component ─────────────────────────────────────────────── */
 export default function AttendanceRecords() {
   const { user } = useAuth();
+  const [apiRecords, setApiRecords] = useState([]);
+  const [apiError, setApiError] = useState('');
   
   // Section Visibility
   const [visibleSections, setVisibleSections] = useState({
@@ -98,19 +101,46 @@ export default function AttendanceRecords() {
   // Selected Day Details
   const [selectedDayRecord, setSelectedDayRecord] = useState(null);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadRecords() {
+      try {
+        const snapshot = await loadAttendanceSnapshot();
+        const workerRecords = snapshot.attendance.filter(record => (
+          record.workerMobile === user?.mobile || record.workerName === user?.name
+        ));
+        if (!cancelled) {
+          setApiRecords(workerRecords);
+          setApiError('');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiRecords([]);
+          setApiError(error.message || 'Unable to load attendance from API.');
+        }
+      }
+    }
+
+    if (user) loadRecords();
+    return () => { cancelled = true; };
+  }, [user]);
+
+  const attendanceRecords = apiRecords.length > 0 ? apiRecords : ALL_RECORDS;
+
   // Derived Data for Monthly
   const monthlyRecords = useMemo(() => {
-    return ALL_RECORDS.filter(r => {
+    return attendanceRecords.filter(r => {
       const d = new Date(r.date);
       return d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     });
-  }, [selectedMonth, selectedYear]);
+  }, [attendanceRecords, selectedMonth, selectedYear]);
 
   const monthlyStats = useMemo(() => calculateStats(monthlyRecords), [monthlyRecords]);
 
   // Derived Data for Detailed Table
   const filteredRecords = useMemo(() => {
-    return ALL_RECORDS.filter(r => {
+    return attendanceRecords.filter(r => {
       const d = new Date(r.date);
       const from = new Date(drDateFrom);
       const to = new Date(drDateTo);
@@ -124,7 +154,7 @@ export default function AttendanceRecords() {
       
       return inDateRange && statusMatch && searchMatch;
     }).sort((a,b) => new Date(b.date) - new Date(a.date));
-  }, [drDateFrom, drDateTo, drStatus, drSearch]);
+  }, [attendanceRecords, drDateFrom, drDateTo, drStatus, drSearch]);
 
   const drStats = useMemo(() => calculateStats(filteredRecords), [filteredRecords]);
 
@@ -146,8 +176,45 @@ export default function AttendanceRecords() {
     }
   };
 
+  const exportFilteredCsv = () => {
+    const headers = ['Date', 'Client', 'Shift', 'Check In', 'Check Out', 'Total Hours', 'Status', 'Notes'];
+    const rows = filteredRecords.map(record => [
+      record.date,
+      record.client,
+      record.shift,
+      record.checkIn,
+      record.checkOut,
+      record.totalHours,
+      record.status,
+      String(record.notes || '').replace(/"/g, '""'),
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + [
+      headers.join(','),
+      ...rows.map(row => row.map(value => `"${value || ''}"`).join(',')),
+    ].join('\n');
+    const link = document.createElement('a');
+    link.setAttribute('href', encodeURI(csvContent));
+    link.setAttribute('download', 'attendance_records.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportPdf = async () => {
+    try {
+      await downloadAttendancePdf();
+    } catch (error) {
+      alert(error.message || 'Unable to download attendance PDF from API.');
+    }
+  };
+
   return (
     <div className="ar-page">
+      {apiError && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: '1px solid #FCA5A5', background: '#FEF2F2', color: '#991B1B', fontSize: 13, fontWeight: 700 }}>
+          Attendance API unavailable: showing local fallback data. {apiError}
+        </div>
+      )}
       {/* ── Header & Breadcrumbs ── */}
       <div className="ar-header">
         <nav className="ar-breadcrumbs">
@@ -243,8 +310,8 @@ export default function AttendanceRecords() {
             onToggle={() => toggleSection('quickActions')}
           >
             <QuickActions 
-              onExportPDF={() => alert("Generating PDF...")}
-              onExportCSV={() => alert("Generating CSV...")}
+              onExportPDF={exportPdf}
+              onExportCSV={exportFilteredCsv}
               onRequestLeave={() => setShowLeaveModal(true)}
               onReportIssue={() => setShowIssueModal(true)}
             />
@@ -279,7 +346,7 @@ function SectionWrapper({ title, subtitle, children, visible, onToggle }) {
   );
 }
 
-function AttendanceCalendar({ month, year, records }) {
+function AttendanceCalendar({ month, year, records, onDayClick }) {
   const daysInMonth = getDaysInMonth(month, year);
   const firstDay = getFirstDayOfMonth(month, year);
   

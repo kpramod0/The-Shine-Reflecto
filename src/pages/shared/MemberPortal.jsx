@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { listUsers, toDirectoryClient, toDirectoryUser } from '../../services/usersApi';
 import './MemberPortal.css';
 
 /* ── Mock Data Engine ────────────────────────────────────────── */
@@ -32,22 +33,66 @@ function GoogleMapLink({ address, url }) {
 export default function MemberPortal() {
   const { user } = useAuth();
   const [currentView, setCurrentView] = useState('hub'); // 'hub', 'users', 'clients'
+  const [apiUsers, setApiUsers] = useState([]);
+  const [apiError, setApiError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadUsers() {
+      setLoading(true);
+      setApiError('');
+      try {
+        const users = await listUsers();
+        if (!cancelled) setApiUsers(users);
+      } catch (error) {
+        if (!cancelled) {
+          setApiError(error.message || 'Unable to load API users.');
+          setApiUsers([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    if (user) loadUsers();
+    return () => { cancelled = true; };
+  }, [user]);
+
+  const directoryUsers = useMemo(() => (
+    apiUsers.length > 0 ? apiUsers.map(toDirectoryUser) : MOCK_USERS
+  ), [apiUsers]);
+
+  const directoryClients = useMemo(() => {
+    if (apiUsers.length === 0) return MOCK_CLIENTS;
+
+    return apiUsers
+      .map(toDirectoryUser)
+      .filter(item => item.role === 'Client')
+      .map(item => toDirectoryClient(item.apiUser));
+  }, [apiUsers]);
   
   // -- View routing
   const navigateTo = (view) => setCurrentView(view);
 
   return (
     <div className="mp-page" id="member-portal-page">
-      {currentView === 'hub' && <HubView onNavigate={navigateTo} user={user} />}
-      {currentView === 'users' && <UsersView onBack={() => navigateTo('hub')} user={user} />}
-      {currentView === 'clients' && <ClientsView onBack={() => navigateTo('hub')} user={user} />}
+      {apiError && (
+        <div style={{ marginBottom: 12, padding: 12, border: '1px solid #FCA5A5', borderRadius: 8, color: '#991B1B', background: '#FEF2F2', fontSize: 13, fontWeight: 700 }}>
+          API unavailable: showing local fallback data. {apiError}
+        </div>
+      )}
+      {currentView === 'hub' && <HubView onNavigate={navigateTo} user={user} loading={loading} />}
+      {currentView === 'users' && <UsersView onBack={() => navigateTo('hub')} user={user} users={directoryUsers} loading={loading} />}
+      {currentView === 'clients' && <ClientsView onBack={() => navigateTo('hub')} user={user} clients={directoryClients} loading={loading} />}
     </div>
   );
 }
 
 /* ── Hub View ────────────────────────────────────────────────── */
 
-function HubView({ onNavigate, user }) {
+function HubView({ onNavigate, user, loading }) {
   const role = user?.role;
   const isWorkerOrClient = role === 'worker' || role === 'client';
 
@@ -56,7 +101,7 @@ function HubView({ onNavigate, user }) {
       <div className="mp-header">
         <div>
           <h1 className="mp-title">Member Portal</h1>
-          <p className="mp-subtitle">Quick access to directory and management</p>
+          <p className="mp-subtitle">{loading ? 'Syncing members from API...' : 'Quick access to directory and management'}</p>
         </div>
       </div>
 
@@ -98,18 +143,18 @@ function HubView({ onNavigate, user }) {
 
 /* ── Users View ──────────────────────────────────────────────── */
 
-function UsersView({ onBack, user }) {
+function UsersView({ onBack, user, users, loading }) {
   const role = user?.role;
   const isAdmin = role === 'admin';
 
   // 1. Data Isolation
-  let accessibleUsers = MOCK_USERS;
+  let accessibleUsers = users;
   if (role === 'supervisor') {
-    accessibleUsers = MOCK_USERS.filter(u => u.assignedSupervisorId === user.mobile || u.mobile === user.mobile);
+    accessibleUsers = users.filter(u => u.assignedSupervisorId === user.mobile || u.mobile === user.mobile);
   } else if (role === 'client' || role === 'worker') {
-    const me = MOCK_USERS.find(u => u.mobile === user.mobile);
+    const me = users.find(u => u.mobile === user.mobile);
     const mySupervisorId = me?.assignedSupervisorId;
-    accessibleUsers = MOCK_USERS.filter(u => u.mobile === user.mobile || u.mobile === mySupervisorId);
+    accessibleUsers = users.filter(u => u.mobile === user.mobile || u.mobile === mySupervisorId);
   }
 
   // 2. Filters
@@ -155,7 +200,7 @@ function UsersView({ onBack, user }) {
             <span style={{cursor:'pointer', color:'#64748B'}} onClick={onBack}>Member Portal &rsaquo; </span> 
             Users
           </h1>
-          <p className="mp-subtitle">All workers, client HODs, supervisors, and admins</p>
+          <p className="mp-subtitle">{loading ? 'Loading API users...' : 'All workers, client HODs, supervisors, and admins'}</p>
         </div>
         {isAdmin && <button className="mp-btn mp-btn-primary">+ Add User</button>}
       </div>
@@ -292,18 +337,14 @@ function MobileUserCard({ user }) {
 
 /* ── Clients View ────────────────────────────────────────────── */
 
-function ClientsView({ onBack, user }) {
+function ClientsView({ onBack, user, clients, loading }) {
   const role = user?.role;
   const isAdmin = role === 'admin';
+  const unauthorized = role !== 'admin' && role !== 'supervisor';
 
-  // Strict check
-  if (role !== 'admin' && role !== 'supervisor') {
-    return <div style={{padding:20}}>Unauthorized Access.</div>;
-  }
-
-  let accessibleClients = MOCK_CLIENTS;
+  let accessibleClients = clients;
   if (role === 'supervisor') {
-    accessibleClients = MOCK_CLIENTS.filter(c => c.assignedSupervisorId === user.mobile);
+    accessibleClients = clients.filter(c => c.assignedSupervisorId === user.mobile);
   }
 
   const [search, setSearch] = useState('');
@@ -328,6 +369,10 @@ function ClientsView({ onBack, user }) {
   const [expandedRowId, setExpandedRowId] = useState(null);
   const toggleRow = (id) => setExpandedRowId(prev => prev === id ? null : id);
 
+  if (unauthorized) {
+    return <div style={{padding:20}}>Unauthorized Access.</div>;
+  }
+
   return (
     <>
       <div className="mp-header">
@@ -336,7 +381,7 @@ function ClientsView({ onBack, user }) {
             <span style={{cursor:'pointer', color:'#64748B'}} onClick={onBack}>Member Portal &rsaquo; </span> 
             Clients
           </h1>
-          <p className="mp-subtitle">View client records, contact information, service details and HOD</p>
+          <p className="mp-subtitle">{loading ? 'Loading API clients...' : 'View client records, contact information, service details and HOD'}</p>
         </div>
         {isAdmin && <button className="mp-btn mp-btn-primary">+ Add Client</button>}
       </div>

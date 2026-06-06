@@ -1,57 +1,106 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { logoutAllFromApi, logoutFromApi, requestOtp, restoreCurrentUser, verifyOtp as verifyOtpWithApi } from '../services/authApi';
+import { clearAuthStorage, getStoredUser, saveUser } from '../services/tokenStorage';
 
 const AuthContext = createContext(null);
 
-// Mock user database
-const MOCK_USERS = {
-  '8830227359': { role: 'admin',      name: 'Admin User' },
-  '9999999991': { role: 'supervisor', name: 'Supervisor One' },
-  '9999999992': { role: 'client',     name: 'Client One' },
-  '9999999993': { role: 'worker',     name: 'Worker One' },
-  '9999999994': { role: 'staff',      name: 'Office Staff' },
-};
-
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('tsr_user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState(() => getStoredUser());
+  const [initializing, setInitializing] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function restoreSession() {
+      try {
+        const restoredUser = await restoreCurrentUser(getStoredUser());
+        if (!cancelled && restoredUser) {
+          setUser(restoredUser);
+          saveUser(restoredUser);
+        } else if (!cancelled) {
+          setUser(null);
+          clearAuthStorage();
+        }
+      } catch {
+        if (!cancelled) {
+          setUser(null);
+          clearAuthStorage();
+        }
+      } finally {
+        if (!cancelled) setInitializing(false);
+      }
+    }
+
+    restoreSession();
+    return () => { cancelled = true; };
+  }, []);
 
   const sendOtp = async (mobile) => {
-    if (!MOCK_USERS[mobile]) {
-      return { success: false, message: 'You are not registered. Please contact administrator.' };
+    try {
+      const data = await requestOtp(mobile);
+      return {
+        success: true,
+        message: data?.detail || 'OTP sent successfully.',
+        otp: data?.otp,
+        expiresAt: data?.expires_at,
+      };
+    } catch (error) {
+      const isNotRegistered = error.status === 400 || /not registered|not found|does not exist/i.test(error.message || '');
+
+      return {
+        success: false,
+        code: isNotRegistered ? 'not_registered' : 'otp_failed',
+        message: isNotRegistered
+          ? 'User not registered. Please contact administrator.'
+          : error.message || 'Unable to send OTP. Please try again.',
+      };
     }
-    // In production: fire API to send real OTP
-    return { success: true, message: 'OTP sent successfully.' };
   };
 
   const verifyOtp = async (mobile, otp) => {
-    if (otp !== '123456') {
-      return { success: false, message: 'Invalid OTP. Please try again.' };
+    try {
+      const { user: loggedUser } = await verifyOtpWithApi(mobile, otp);
+      if (!loggedUser) {
+        return { success: false, message: 'Login succeeded, but user details were not found.' };
+      }
+
+      setUser(loggedUser);
+      saveUser(loggedUser);
+      return { success: true, user: loggedUser };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message || 'Invalid OTP. Please try again.',
+      };
     }
-    const userData = MOCK_USERS[mobile];
-    if (!userData) {
-      return { success: false, message: 'You are not registered. Please contact administrator.' };
-    }
-    const loggedUser = { mobile, ...userData };
-    
-    // Save to state and storage
-    setUser(loggedUser);
-    localStorage.setItem('tsr_user', JSON.stringify(loggedUser));
-    
-    return { success: true, user: loggedUser };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await logoutFromApi();
+    } catch {
+      // Local logout should still happen if the network/API rejects the request.
+    }
     setUser(null);
-    localStorage.removeItem('tsr_user');
+    clearAuthStorage();
+  };
+
+  const logoutAll = async () => {
+    try {
+      await logoutAllFromApi();
+    } catch {
+      // Local logout should still happen if the network/API rejects the request.
+    }
+    setUser(null);
+    clearAuthStorage();
   };
 
   return (
-    <AuthContext.Provider value={{ user, sendOtp, verifyOtp, logout }}>
+    <AuthContext.Provider value={{ user, initializing, sendOtp, verifyOtp, logout, logoutAll }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

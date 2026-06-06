@@ -1,8 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  AlertTriangle,
-  CalendarCheck,
   CalendarDays,
   ClipboardList,
   Headset,
@@ -10,18 +8,11 @@ import {
   Package,
   ShieldCheck,
   Ticket,
-  UserRound,
   WalletCards,
-  ChevronRight,
-  PlusCircle,
-  AlertCircle,
-  Phone,
-  MapPin,
-  ScanLine,
-  X
 } from 'lucide-react';
 import { ImmediateHelpSection } from '../../components/support/ImmediateHelpSection';
 import { getAttendanceScans } from '../shared/ManagementPortal';
+import { loadAttendanceSnapshot } from '../../services/operationsApi';
 import '../shared/Dashboards.css';
 
 function initials(name) {
@@ -34,8 +25,8 @@ function initials(name) {
     .toUpperCase();
 }
 
-function summarizeAttendance(mobile) {
-  const scans = getAttendanceScans().filter(scan => scan.workerMobile === mobile);
+function summarizeAttendance(records, mobile) {
+  const scans = records.filter(scan => !mobile || scan.workerMobile === mobile);
   return {
     daysWorked: scans.filter(scan => scan.status === 'Present').length,
     officialLeaves: scans.filter(scan => scan.status === 'Official Leave').length,
@@ -79,7 +70,36 @@ export function SupervisorDashboardHome({ user }) {
   const navigate = useNavigate();
   const [attendanceFilter, setAttendanceFilter] = useState('Till Now');
   const [showTechnicalTeam, setShowTechnicalTeam] = useState(false);
-  const stats = useMemo(() => summarizeAttendance(user?.mobile), [user?.mobile]);
+  const [apiAttendance, setApiAttendance] = useState([]);
+  const [apiError, setApiError] = useState('');
+  const fallbackAttendance = useMemo(() => getAttendanceScans(), []);
+  const attendanceRecords = apiAttendance.length > 0 ? apiAttendance : fallbackAttendance;
+  const stats = useMemo(
+    () => summarizeAttendance(attendanceRecords, user?.mobile),
+    [attendanceRecords, user?.mobile],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAttendance() {
+      try {
+        const snapshot = await loadAttendanceSnapshot();
+        if (!cancelled) {
+          setApiAttendance(snapshot.attendance);
+          setApiError('');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiAttendance([]);
+          setApiError(error.message || 'Unable to load attendance from API.');
+        }
+      }
+    }
+
+    if (user) loadAttendance();
+    return () => { cancelled = true; };
+  }, [user]);
 
   const queryCards = [
     {
@@ -128,6 +148,11 @@ export function SupervisorDashboardHome({ user }) {
 
   return (
     <div className="dash-page" id="supervisor-home-page">
+      {apiError && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: '1px solid #FCA5A5', background: '#FEF2F2', color: '#991B1B', fontSize: 13, fontWeight: 700 }}>
+          Attendance API unavailable: showing local fallback data. {apiError}
+        </div>
+      )}
       {/* Profile */}
       <div className="dash-profile-card">
         <div className="dash-avatar">{initials(user?.name || 'Supervisor One')}</div>

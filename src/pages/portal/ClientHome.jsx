@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  CalendarDays, ShieldCheck, MessageSquareWarning, Headset, MapPin, Users
+  CalendarDays, ShieldCheck, MessageSquareWarning, Headset, Users
 } from 'lucide-react';
 import { getRosters } from '../shared/ManagementPortal';
+import { listRosters as listApiRosters } from '../../services/operationsApi';
 import '../shared/Dashboards.css';
 
 /* ── Mocks / Helpers ───────────────────────────────────── */
@@ -44,16 +45,43 @@ export default function ClientHome({ user }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [showTechModal, setShowTechModal] = useState(false);
+  const [apiRosters, setApiRosters] = useState([]);
+  const [apiError, setApiError] = useState('');
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadRosters() {
+      try {
+        const rosters = await listApiRosters();
+        if (!cancelled) {
+          setApiRosters(rosters);
+          setApiError('');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiRosters([]);
+          setApiError(error.status === 403
+            ? 'Your account does not have permission to read rosters from the backend yet. Showing local roster data.'
+            : error.message || 'Unable to load rosters from API.');
+        }
+      }
+    }
+
+    if (user) loadRosters();
+    return () => { cancelled = true; };
+  }, [user]);
+
   const clientName = user?.client || 'Acme Corp';
   
   // Security check: Client only sees rosters assigned to their property
-  const allRosters = getRosters();
+  const fallbackRosters = useMemo(() => getRosters(), []);
+  const allRosters = apiRosters.length > 0 ? apiRosters : fallbackRosters;
   const myRosters = useMemo(() => allRosters.filter(r => r.clients.includes(clientName)), [allRosters, clientName]);
   
   const todayStr = '2026-05-24';
@@ -70,6 +98,11 @@ export default function ClientHome({ user }) {
 
   return (
     <div className="dash-page" id="client-home-page">
+      {apiError && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: '1px solid #FCA5A5', background: '#FEF2F2', color: '#991B1B', fontSize: 13, fontWeight: 700 }}>
+          {apiError}
+        </div>
+      )}
       {/* ── 1. Top Profile Card ──────────────────────────── */}
       <div className="dash-profile-card">
         <div className="dash-avatar">{getInitials(user?.name)}</div>

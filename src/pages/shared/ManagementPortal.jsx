@@ -1,6 +1,15 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { listUsers, toDirectoryClient, toDirectoryUser } from '../../services/usersApi';
+import {
+  createRosterFromUi,
+  deleteRoster as deleteApiRoster,
+  downloadAttendancePdf,
+  listAttendance as listApiAttendance,
+  listRosters as listApiRosters,
+  updateRosterFromUi,
+} from '../../services/operationsApi';
 import './ManagementPortal.css';
 import { MaterialsView } from './MaterialsView';
 
@@ -1836,6 +1845,35 @@ function ThroughputLineChart({ tasks }) {
 export function AttendanceView({ onBack, user }) {
   const role = user?.role;
   const [scans, setScans] = useState(() => getAttendanceScans());
+  const [apiSync, setApiSync] = useState({ loading: false, error: '' });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAttendanceData() {
+      setApiSync({ loading: true, error: '' });
+      try {
+        const apiUsers = await listUsers();
+        const apiRosters = await listApiRosters(apiUsers);
+        const apiScans = await listApiAttendance(apiRosters);
+        if (!cancelled) {
+          setScans(apiScans);
+          saveAttendanceScans(apiScans);
+          setApiSync({ loading: false, error: '' });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiSync({
+            loading: false,
+            error: error.message || 'Unable to sync attendance from API.',
+          });
+        }
+      }
+    }
+
+    loadAttendanceData();
+    return () => { cancelled = true; };
+  }, []);
 
   // Approval queue modal state
   const [activeApprovalId, setActiveApprovalId] = useState(null);
@@ -2114,7 +2152,14 @@ export function AttendanceView({ onBack, user }) {
     document.body.removeChild(link);
   };
 
-  const printAttendancePDF = () => {
+  const printAttendancePDF = async () => {
+    try {
+      await downloadAttendancePdf();
+      return;
+    } catch {
+      // Fall back to the existing browser-generated report when the API export is unavailable.
+    }
+
     const summary = calculateAttendanceStats(filteredScans);
     const printWindow = window.open('', '_blank');
     
@@ -2224,6 +2269,11 @@ export function AttendanceView({ onBack, user }) {
           <p className="mgt-subtitle">View, filter and export employee and client attendance logs.</p>
         </div>
       </div>
+      {(apiSync.loading || apiSync.error) && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: apiSync.error ? '1px solid #FCA5A5' : '1px solid #BFDBFE', background: apiSync.error ? '#FEF2F2' : '#EFF6FF', color: apiSync.error ? '#991B1B' : '#1E40AF', fontSize: 13, fontWeight: 700 }}>
+          {apiSync.loading ? 'Syncing attendance from API...' : `Attendance API unavailable: showing local fallback data. ${apiSync.error}`}
+        </div>
+      )}
 
       {/* Filters Card */}
       <div className="mgt-filters-card">
@@ -2827,6 +2877,63 @@ export function RosterView({ onBack, user }) {
   const [formSupervisorMobile, setFormSupervisorMobile] = useState('');
   const [selectedWorkers, setSelectedWorkers] = useState([]); // list of {name, phone}
   const [tempWorkerPhone, setTempWorkerPhone] = useState('');
+  const [apiDirectory, setApiDirectory] = useState({ clients: [], workers: [], supervisors: [] });
+  const [apiSync, setApiSync] = useState({ loading: false, error: '' });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadRosterData() {
+      setApiSync({ loading: true, error: '' });
+      try {
+        const apiUsers = await listUsers();
+        const directoryUsers = apiUsers.map(toDirectoryUser);
+        const clients = directoryUsers
+          .filter(item => item.role === 'Client')
+          .map(item => toDirectoryClient(item.apiUser));
+        const workers = directoryUsers
+          .filter(item => item.role === 'Worker')
+          .map(item => ({ id: item.apiId, apiId: item.apiId, name: item.name, phone: item.mobile }));
+        const supervisors = directoryUsers
+          .filter(item => item.role === 'Supervisor')
+          .map(item => ({ id: item.apiId, apiId: item.apiId, name: item.name, phone: item.mobile }));
+        const apiRosters = await listApiRosters(apiUsers);
+
+        if (!cancelled) {
+          setApiDirectory({ clients, workers, supervisors });
+          setRosters(apiRosters);
+          saveRosters(apiRosters);
+          setApiSync({ loading: false, error: '' });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiSync({
+            loading: false,
+            error: error.status === 403
+              ? 'Your account does not have permission to manage rosters in the backend yet. Showing local roster data.'
+              : error.message || 'Unable to sync rosters from API.',
+          });
+        }
+      }
+    }
+
+    loadRosterData();
+    return () => { cancelled = true; };
+  }, []);
+
+  const clientOptions = useMemo(() => (
+    apiDirectory.clients.length > 0
+      ? apiDirectory.clients
+      : ALL_CLIENTS.map(name => ({ name, id: null, apiId: null }))
+  ), [apiDirectory.clients]);
+
+  const workerOptions = useMemo(() => (
+    apiDirectory.workers.length > 0 ? apiDirectory.workers : ALL_WORKERS
+  ), [apiDirectory.workers]);
+
+  const supervisorOptions = useMemo(() => (
+    apiDirectory.supervisors.length > 0 ? apiDirectory.supervisors : ALL_SUPERVISORS
+  ), [apiDirectory.supervisors]);
 
   // Isolation logic
   const accessibleRosters = useMemo(() => {
@@ -2854,15 +2961,15 @@ export function RosterView({ onBack, user }) {
     if (role === 'supervisor' && supervisorScope) {
       return supervisorScope.clients;
     }
-    return ALL_CLIENTS;
-  }, [role, supervisorScope]);
+    return clientOptions.map(client => client.name);
+  }, [clientOptions, role, supervisorScope]);
 
   const allowedWorkers = useMemo(() => {
     if (role === 'supervisor' && supervisorScope) {
       return supervisorScope.workers;
     }
-    return ALL_WORKERS;
-  }, [role, supervisorScope]);
+    return workerOptions;
+  }, [role, supervisorScope, workerOptions]);
 
   // Set default client in form when opening
   useEffect(() => {
@@ -2875,10 +2982,10 @@ export function RosterView({ onBack, user }) {
   useEffect(() => {
     if (role === 'supervisor') {
       setFormSupervisorMobile(user.mobile);
-    } else if (ALL_SUPERVISORS.length > 0 && !formSupervisorMobile) {
-      setFormSupervisorMobile(ALL_SUPERVISORS[0].phone);
+    } else if (supervisorOptions.length > 0 && !formSupervisorMobile) {
+      setFormSupervisorMobile(supervisorOptions[0].phone);
     }
-  }, [role, user, formSupervisorMobile]);
+  }, [role, user, formSupervisorMobile, supervisorOptions]);
 
   // Filter application
   const filteredRosters = useMemo(() => {
@@ -2951,7 +3058,7 @@ export function RosterView({ onBack, user }) {
     if (role === 'supervisor') {
       setFormSupervisorMobile(user.mobile);
     } else {
-      setFormSupervisorMobile(ALL_SUPERVISORS[0].phone);
+      setFormSupervisorMobile(supervisorOptions[0]?.phone || '');
     }
     setShowModal(true);
   };
@@ -2995,7 +3102,7 @@ export function RosterView({ onBack, user }) {
       if (!proceed) return;
     }
 
-    const supervisorObj = ALL_SUPERVISORS.find(s => s.phone === formSupervisorMobile) || { name: 'Supervisor', phone: formSupervisorMobile };
+    const supervisorObj = supervisorOptions.find(s => s.phone === formSupervisorMobile) || { name: 'Supervisor', phone: formSupervisorMobile };
     const supervisorStr = `${supervisorObj.name} (${supervisorObj.phone})`;
 
     const newQueued = dates.map(d => ({
@@ -3015,7 +3122,7 @@ export function RosterView({ onBack, user }) {
     setSelectedWorkers([]);
   };
 
-  const handleSubmitRosters = () => {
+  const handleSubmitRosters = async () => {
     let finalRosters = [...queuedRosters];
 
     // If queue is empty, try to compile the current form state
@@ -3044,7 +3151,7 @@ export function RosterView({ onBack, user }) {
         if (!proceed) return;
       }
 
-      const supervisorObj = ALL_SUPERVISORS.find(s => s.phone === formSupervisorMobile) || { name: 'Supervisor', phone: formSupervisorMobile };
+      const supervisorObj = supervisorOptions.find(s => s.phone === formSupervisorMobile) || { name: 'Supervisor', phone: formSupervisorMobile };
       const supervisorStr = `${supervisorObj.name} (${supervisorObj.phone})`;
 
       finalRosters = dates.map(d => ({
@@ -3060,7 +3167,31 @@ export function RosterView({ onBack, user }) {
       }));
     }
 
-    // Save to list
+    const canSyncRosterApi = apiDirectory.clients.length > 0 && apiDirectory.workers.length > 0;
+    if (canSyncRosterApi) {
+      try {
+        if (editingRoster?.apiId) {
+          await updateRosterFromUi(editingRoster.apiId, finalRosters[0], { clients: clientOptions });
+        } else {
+          for (const roster of finalRosters) {
+            await createRosterFromUi(roster, { clients: clientOptions });
+          }
+        }
+
+        const apiUsers = await listUsers();
+        const syncedRosters = await listApiRosters(apiUsers);
+        saveRosters(syncedRosters);
+        setRosters(syncedRosters);
+        setShowModal(false);
+        setQueuedRosters([]);
+        alert(`Successfully synced ${finalRosters.length} roster(s) with API.`);
+        return;
+      } catch (error) {
+        alert(`API roster sync failed: ${error.message}. Saving this roster locally only.`);
+      }
+    }
+
+    // Save to local fallback list
     let updatedRosters = [...rosters];
     if (editingRoster) {
       updatedRosters = updatedRosters.filter(r => r.id !== editingRoster.id);
@@ -3091,9 +3222,16 @@ export function RosterView({ onBack, user }) {
     setFilterSupervisor('All');
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (roster) => {
     if (window.confirm('Are you sure you want to delete this roster assignment?')) {
-      const updated = rosters.filter(r => r.id !== id);
+      if (roster.apiId) {
+        try {
+          await deleteApiRoster(roster.apiId);
+        } catch (error) {
+          alert(`API delete failed: ${error.message}. Removing this roster from the local view only.`);
+        }
+      }
+      const updated = rosters.filter(r => r.id !== roster.id);
       saveRosters(updated);
       setRosters(updated);
     }
@@ -3137,6 +3275,12 @@ export function RosterView({ onBack, user }) {
           <button className="mgt-btn primary" onClick={handleOpenAdd}>➕ Add New Roster</button>
         )}
       </div>
+
+      {(apiSync.loading || apiSync.error) && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: apiSync.error ? '1px solid #FCA5A5' : '1px solid #BFDBFE', background: apiSync.error ? '#FEF2F2' : '#EFF6FF', color: apiSync.error ? '#991B1B' : '#1E40AF', fontSize: 13, fontWeight: 700 }}>
+          {apiSync.loading ? 'Syncing rosters from API...' : apiSync.error}
+        </div>
+      )}
 
       {/* Filter Section */}
       <div className="mgt-filters-card" style={{ marginBottom: '20px' }}>
@@ -3206,7 +3350,7 @@ export function RosterView({ onBack, user }) {
                   style={{ width: '100%', padding: '10px 12px', border: '1px solid #CBD5E1', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
                 >
                   <option value="All">All Supervisors</option>
-                  {ALL_SUPERVISORS.map(s => <option key={s.phone} value={s.name}>{s.name}</option>)}
+                  {supervisorOptions.map(s => <option key={s.phone} value={s.name}>{s.name}</option>)}
                 </select>
               </div>
             )}
@@ -3287,6 +3431,7 @@ export function RosterView({ onBack, user }) {
                     <td>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <button className="mgt-btn secondary" style={{ padding: '4px 8px', fontSize: 12 }} onClick={() => handleOpenEdit(r)}>Edit</button>
+                        <button className="mgt-btn secondary" style={{ padding: '4px 8px', fontSize: 12, color: '#B91C1C' }} onClick={() => handleDelete(r)}>Delete</button>
                       </div>
                     </td>
                   )}
@@ -3332,6 +3477,7 @@ export function RosterView({ onBack, user }) {
                 {(role === 'supervisor' || role === 'admin') && (
                   <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', marginTop: 4 }}>
                     <button className="mgt-btn secondary" style={{ padding: '4px 10px', fontSize: 11 }} onClick={() => handleOpenEdit(r)}>Edit</button>
+                    <button className="mgt-btn secondary" style={{ padding: '4px 10px', fontSize: 11, color: '#B91C1C' }} onClick={() => handleDelete(r)}>Delete</button>
                   </div>
                 )}
               </div>
@@ -3439,7 +3585,7 @@ export function RosterView({ onBack, user }) {
                   value={formSupervisorMobile}
                   onChange={e => setFormSupervisorMobile(e.target.value)}
                 >
-                  {ALL_SUPERVISORS.map(s => <option key={s.phone} value={s.phone}>{s.name} ({s.phone})</option>)}
+                  {supervisorOptions.map(s => <option key={s.phone} value={s.phone}>{s.name} ({s.phone})</option>)}
                 </select>
               </div>
             )}

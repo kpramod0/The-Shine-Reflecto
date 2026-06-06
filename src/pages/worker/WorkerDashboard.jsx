@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { ImmediateHelpSection } from '../../components/support/ImmediateHelpSection';
+import { loadAttendanceSnapshot } from '../../services/operationsApi';
 import '../shared/Dashboards.css';
 
 /* ── Sample Data ─────────────────────────────────────────── */
@@ -78,17 +79,89 @@ function TechTeamModal({ onClose }) {
   );
 }
 
+function isInAttendanceFilter(dateValue, filter) {
+  if (!dateValue || filter === 'Till Now') return true;
+  const date = new Date(dateValue);
+  const now = new Date();
+  if (Number.isNaN(date.getTime())) return true;
+
+  if (filter === 'This Week') {
+    const start = new Date(now);
+    start.setDate(now.getDate() - now.getDay());
+    start.setHours(0, 0, 0, 0);
+    return date >= start;
+  }
+
+  if (filter === 'This Month') {
+    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+  }
+
+  if (filter === 'This Year') {
+    return date.getFullYear() === now.getFullYear();
+  }
+
+  return true;
+}
+
+function summarizeAttendanceRecords(records, mobile, filter) {
+  const workerRecords = records.filter(record => (
+    (!mobile || record.workerMobile === mobile) && isInAttendanceFilter(record.date, filter)
+  ));
+
+  return {
+    daysWorked: workerRecords.filter(record => record.status === 'Present').length,
+    officialLeaves: workerRecords.filter(record => record.status === 'Official Leave').length,
+    unofficialAbsences: workerRecords.filter(record => (
+      record.status === 'Unofficial Leave' || record.status === 'Absent (Unofficial)'
+    )).length,
+  };
+}
+
 export default function WorkerDashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const worker = { ...workerUser, name: user?.name || workerUser.name };
   
   const [filter, setFilter] = useState("This Month");
-  const attData = attendanceData[filterKeyMap[filter]];
   const [showTechModal, setShowTechModal] = useState(false);
+  const [apiAttendance, setApiAttendance] = useState([]);
+  const [apiError, setApiError] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAttendance() {
+      try {
+        const snapshot = await loadAttendanceSnapshot();
+        if (!cancelled) {
+          setApiAttendance(snapshot.attendance);
+          setApiError('');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setApiAttendance([]);
+          setApiError(error.message || 'Unable to load attendance from API.');
+        }
+      }
+    }
+
+    if (user) loadAttendance();
+    return () => { cancelled = true; };
+  }, [user]);
+
+  const liveAttendanceSummary = useMemo(
+    () => summarizeAttendanceRecords(apiAttendance, user?.mobile, filter),
+    [apiAttendance, user?.mobile, filter],
+  );
+  const attData = apiAttendance.length > 0 ? liveAttendanceSummary : attendanceData[filterKeyMap[filter]];
 
   return (
     <div className="dash-page">
+      {apiError && (
+        <div style={{ marginBottom: 12, padding: 12, borderRadius: 8, border: '1px solid #FCA5A5', background: '#FEF2F2', color: '#991B1B', fontSize: 13, fontWeight: 700 }}>
+          Attendance API unavailable: showing local fallback data. {apiError}
+        </div>
+      )}
       {/* 1. Profile Summary */}
       <div className="dash-profile-card">
         <div className="dash-avatar">
